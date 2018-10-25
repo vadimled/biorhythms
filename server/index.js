@@ -13,5 +13,4 @@ const
 
 require('./routes/authRoutes')(app);
 
-
 app.listen(PORT);
