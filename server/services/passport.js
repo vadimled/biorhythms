@@ -5,6 +5,14 @@ const
   User = mongoose.model('users'),//User is a "Model Class" like Table in SQL
   keys = require('../config/keys');
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id)
+    .then(user => done(null, user))
+});
 
 passport.use(
   new GoogleStrategy({
@@ -12,6 +20,19 @@ passport.use(
     clientSecret: keys.googleClientSecret,
     callbackURL: '/auth/google/callback'
   }, (accessToken, refreshToken, profile, done) => {
-    new User({googleId: profile.id, name: profile.name.givenName}).save();// Model Instance
+    User.findOne({googleId: profile.id})
+      .then(existingUser => {
+        if (existingUser) {
+          //we already have a record with the diven ID
+          done(null, existingUser); // say to Passport - Ok, the action anded, here the "existingUser"
+        }
+        else {
+          new User({googleId: profile.id, name: profile.name.givenName})// Model Instance
+            .save()
+            .then(uesr => done(null, user));
+        }
+      })
+    
   })
 );
+
