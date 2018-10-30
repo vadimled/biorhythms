@@ -29,7 +29,7 @@ passport.use(
         else {
           new User({googleId: profile.id, name: profile.name.givenName})// Model Instance
             .save()
-            .then(uesr => done(null, user));
+            .then(user => done(null, user));
         }
       })
     
