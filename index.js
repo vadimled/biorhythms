@@ -1,5 +1,14 @@
 const
   express = require('express'),
+  app = express(),
+  PORT = process.env.PORT || 5000;;
+  
+app.get('/', (req, res) => {
+  res.send({hi: 'There!'})
+});
+
+app.listen(PORT);
+/*
   mongoose = require('mongoose'),
   cookieSession = require('cookie-session'),
   passport = require('passport'),
@@ -26,3 +35,4 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 
 app.listen(PORT);
+*/
