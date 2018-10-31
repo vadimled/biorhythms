@@ -9,8 +9,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "server": "nodemon index.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run webhook\"",
+    "server": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
