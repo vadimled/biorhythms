@@ -1,8 +1,16 @@
 const
-  express = require('express'),
+  mongoose = require('mongoose'),
+  cookieSession = require('cookie-session'),
+  passport = require('passport'),
+  keys = require('./config/keys');
+require('./models/User');
+require('./services/passport');
+
+mongoose.connect(keys.mongoURI);
+
+const
   app = express(),
-  PORT = process.env.PORT || 5000;;
-  
+  PORT = process.env.PORT || 5000;
 app.get('/', (req, res) => {
   res.send({hi: 'There!'})
 });
