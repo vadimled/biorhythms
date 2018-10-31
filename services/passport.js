@@ -24,8 +24,8 @@ passport.use(
     User.findOne({googleId: profile.id})
       .then(existingUser => {
         if (existingUser) {
-          //we already have a record with the diven ID
-          done(null, existingUser); // say to Passport - Ok, the action anded, here the "existingUser"
+          //we already have a record with the given ID
+          done(null, existingUser); // say to Passport - Ok, the action ended, here the "existingUser"
         }
         else {
           new User({googleId: profile.id, name: profile.name.givenName})// Model Instance
