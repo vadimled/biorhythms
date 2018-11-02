@@ -1,0 +1,25 @@
+{
+  "email": {
+    "inputAttr": {
+      "type": "email",
+      "name": "email",
+      "id": "emailId",
+      "placeholder": "Enter email",
+      "value": "",
+      "required": true
+    },
+    "formFeedback": "Please enter a valid email address",
+    "dbError": "This eMail address does exists in the Database already"
+  },
+  "password": {
+    "inputAttr": {
+      "type": "password",
+      "name": "password",
+      "id": "passwordId",
+      "placeholder": "Enter password",
+      "value": "",
+      "required": true
+    },
+    "formFeedback": "Password (min 4 characters)"
+  }
+}

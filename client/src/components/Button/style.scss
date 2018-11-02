@@ -1,0 +1,122 @@
+$color-success: #5C9210;
+$color-danger: #944317;
+$color-info: #678495;
+$color-link: #cccccc;
+
+.Button {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  margin: 0.8em 0;
+  padding: 0 15px 0 46px;
+  border: none;
+  text-align: left;
+  line-height: 36px;
+  white-space: nowrap;
+  border-radius: 0.2em;
+  font-size: 16px;
+  color: #FFF;
+  &:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34px;
+    height: 100%;
+  }
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Login */
+.Button--login {
+  background: #346766 linear-gradient(#346766, #285753);
+  text-shadow: 0 -1px 0 #224a47;
+  &:before {
+    border-right: #224A47 1px solid;
+    background: url('../../images/icon.png') 1px 1px no-repeat;
+    background-size: contain;
+  }
+  &:hover {
+    background: #3f7d7c linear-gradient(#3e7d7c, #336d68);
+  }
+  &:focus {
+    background: #3f7d7c linear-gradient(#3e7d7c, #336d68);
+  }
+}
+
+/* Link */
+.Button--link {
+  text-shadow: 0 -1px 0 #224a47;
+  &:before {
+    border: none;
+  }
+  background-color: transparent;
+  &:hover {
+    color: darken($color-link, 5%);
+  }
+  &:focus {
+    color: darken($color-link, 5%);
+  }
+}
+
+/*
+.Button {
+  border-radius: 0.2em;
+  border: thin solid;
+  color: white;
+  outline: none;
+  cursor: pointer;
+  font: inherit;
+  padding: 4px 8px;
+  margin: 4px;
+}
+.Button:first-of-type {
+  margin-left: 0;
+}
+
+.Button:disabled {
+  color: #545454;
+  cursor: not-allowed;
+}
+
+.link{
+  border: none;
+  background-color: transparent;
+  &:hover {
+    color: darken($color-link, 5%);
+  }
+}
+
+.success {
+  border-color: $color-success;
+  background-color: $color-success;
+  &:hover {
+    background-color: lighten($color-success, 5%);
+    border-color: lighten($color-success, 10%);
+  }
+}
+
+.danger {
+  background-color: $color-danger;
+  border-color: $color-danger;
+  &:hover {
+    background-color: lighten($color-danger, 5%);
+    border-color: lighten($color-danger, 10%);
+  }
+}
+
+.info {
+  background-color: $color-info;
+  border-color: $color-info;
+  &:hover {
+    background-color: lighten($color-info, 5%);
+    border-color: lighten($color-info, 10%);
+  }
+}
+*/
