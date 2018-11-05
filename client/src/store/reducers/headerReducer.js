@@ -11,8 +11,8 @@ const initialState = {
     password: "",
     gender: "",
     birthday: "",
-    birthTime: "00:00",
-    weight: "3.5"
+    birthTime: "",
+    weight: ""
   },
   registerBtn: true,
   regErrors: {},

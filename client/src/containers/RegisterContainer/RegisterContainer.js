@@ -6,7 +6,7 @@ import {regFormAction, setRegisterButtonState, cleanRegError, setRegError} from 
 import {addDBEntry, setDbError} from "../../store/actions/dbActions";
 import validations from '../../utils/validations';
 import FormGroupContainer from '../../containers/FormGroupContainer';
-import {Form} from 'reactstrap';
+import {Col, Form, Row} from 'reactstrap';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
 import * as PropTypes from "prop-types";
@@ -18,14 +18,9 @@ class RegisterContainer extends Component {
     super(props);
     this.regConfig = JSON.parse(JSON.stringify(regconfig));
     this.fieldsOrder = ['name', 'email', 'password', 'gender', 'birthday', 'birthTime', 'weight'];
-    this.labelLayout = {
-      sm: {size: 7, offset: 2},
-      md: {size: 5, offset: 1},
-      lg: {size: 4, offset: 1}
-    };
     this.columnLayout = {
-      sm: {size: 9, offset: 4},
-      md: {size: 8, offset: 3}
+      sm: {size: 12},
+      md: {size: 12}
     }
   }
   
@@ -58,20 +53,18 @@ class RegisterContainer extends Component {
   prepearRegForm = () => {
     return this.fieldsOrder.map(id => {
         const obj = this.regConfig[id];
-        const label = {...obj.labelAttr, ...this.labelLayout}
         return (
           <FormGroupContainer
             key={id}
             onFocusHandler={this.onBlur}
-            obj={this.regConfig[id]}
+            obj={obj}
             colAtr={this.columnLayout}
-            labelAtr={label}
             validation={this.isValid}
           />
         )
       }
     )
-  }
+  };
   
   render() {
     return (
@@ -79,10 +72,20 @@ class RegisterContainer extends Component {
         {this.props.isLoading ?
           <Spinner/>
           :
-          <div className="card-wrapper">       <Card>
+          <div className="card-wrapper"><Card>
             <Form onSubmit={this.formHandler}>
+              <button className="loginBtn loginBtn--google">
+                Register with Google
+              </button>
               {this.prepearRegForm()}
-              <Button className="Button Button--login">Register</Button>
+              <Row>
+                <Col>
+                  <button className="loginBtn loginBtn--custom">Register</button>
+                  <button className="loginBtn loginBtn--facebook">
+                    Register with Facebook
+                  </button>
+                </Col>
+              </Row>
             </Form>
           </Card>
           </div>

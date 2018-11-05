@@ -8,10 +8,6 @@
       "value": "",
       "required": true
     },
-    "labelAttr": {
-      "for": "nameId"
-    },
-    "labelText": "Name",
     "formFeedback": "Username(2-40 characters)"
   },
   "email": {
@@ -23,10 +19,6 @@
       "value": "",
       "required": true
     },
-    "labelAttr": {
-      "for": "emailId"
-    },
-    "labelText": "Email",
     "formFeedback": "Please enter a valid email address",
     "dbError": "This eMail address does exists in the Database already"
   },
@@ -39,10 +31,6 @@
       "value": "",
       "required": true
     },
-    "labelAttr": {
-      "for": "passwordId"
-    },
-    "labelText": "Password",
     "formFeedback": "Password (min 4 characters)"
   },
   "gender": {
@@ -54,22 +42,21 @@
     },
     "options": {
       "value": [
+        "",
         "Male",
         "Female"
       ],
       "disabled": [
+        true,
         false,
         false
       ],
       "child": [
+        "Enter your gender...",
         "Male",
         "Female"
       ]
     },
-    "labelAttr": {
-      "for": "genderId"
-    },
-    "labelText": "Gender",
     "formFeedback": "Gender is required"
   },
   "birthday": {
@@ -77,29 +64,21 @@
       "type": "date",
       "name": "birthday",
       "id": "birthdayId",
-      "placeholder": "Enter birthday",
+      "placeholder": "Enter birthday:",
       "value": "",
       "required": true
     },
-    "labelAttr": {
-      "for": "birthdayId"
-    },
-    "labelText": "Birthday",
-    "formFeedback": "Please insert the date (dd-mm=yyyy)"
+    "formFeedback": "Please insert your birthday (dd-mm=yyyy)"
   },
   "birthTime": {
     "inputAttr": {
       "type": "time",
       "name": "birthTime",
       "id": "birthTimeId",
-      "placeholder": "Enter time of birth",
-      "value": "00:00",
+      "placeholder": "Enter time of birth:",
+      "value": "",
       "required": false
-    },
-    "labelAttr": {
-      "for": "birthTimeId"
-    },
-    "labelText": "Birth Time"
+    }
   },
   "weight": {
     "inputAttr": {
@@ -107,12 +86,8 @@
       "name": "weight",
       "id": "weightId",
       "placeholder": "Enter birth weight(kg)",
-      "value": "3.5",
+      "value": "",
       "required": false
-    },
-    "labelAttr": {
-      "for": "weightId"
-    },
-    "labelText": "Weight"
+    }
   }
 }

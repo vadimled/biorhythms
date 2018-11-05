@@ -1,5 +1,6 @@
 import React from "react";
 import {FormGroup, Label, Col, Input, FormFeedback} from 'reactstrap';
+import "./style.css"
 
 const Option = ({value, disabled, child}) => <option value={value} disabled={disabled}>{child}</option>;
 
@@ -32,7 +33,7 @@ const FormGroupUI = ({
                        formFeedback,
                        options
                      }) => (
-  <FormGroup {...formGroupAtr} >
+  <FormGroup {...formGroupAtr}>
     <Label {...labelAtr}>{labelText}</Label>
     <Col {...colAtr}>
       {

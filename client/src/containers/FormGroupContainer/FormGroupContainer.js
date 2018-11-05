@@ -61,7 +61,7 @@ class FormGroupContainer extends Component {
       <div>
         <FormGroupUI
           key={id}
-          formGroupAtr={{row: true}}
+          formGroupAtr={{row: true,  id: "login-form"}}
           labelAtr={labelAtr}
           labelText={labelText}
           colAtr={colAtr}

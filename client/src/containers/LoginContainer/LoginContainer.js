@@ -60,7 +60,7 @@ class LoginContainer extends Component {
         )
       }
     )
-  }
+  };
   
   render() {
     return (
