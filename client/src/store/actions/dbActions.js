@@ -7,6 +7,17 @@ export function setUserDataToStore(data) {
   }
 }
 
+export function loginWithGoogle() {
+  return{
+    type: types.LOGIN_WITH_GOOGLE
+  }
+}
+
+export function setUserLogedOut() {
+  return{
+    type: types.SET_USER_LOGED_OUT
+  }
+}
 
 export function fetchDB() {
   return{

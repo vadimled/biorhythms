@@ -5,6 +5,18 @@ export const fetchUserApi = () => {
   return axs.get('/api/current_user');
 };
 
+export const loginWithGoogleApi = () => {
+  return axs('/auth/google', {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+    withCredentials: false
+  })
+};
+
 export const fetchDatabaseApi = () => {
   return axios('/db.json', {
     method: 'GET',

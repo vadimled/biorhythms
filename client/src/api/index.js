@@ -3,5 +3,6 @@ export {
     setNewEntryApi,
     deleteEntryApi,
     editEntryApi,
-    fetchUserApi
+    fetchUserApi,
+    loginWithGoogleApi
 } from './Api';

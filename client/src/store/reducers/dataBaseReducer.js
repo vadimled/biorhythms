@@ -5,6 +5,7 @@ const initialState = {
   db: {},
   user: {},
   loading: false,
+  auth: null,
   dbError: {}
 };
 
@@ -18,7 +19,14 @@ const dataBaseReducer = createReducer(initialState, {
   [types.FETCH_USER_SUCCESS]: (state, {type, payload}) => {
     return {
       ...state,
-      user: {...payload}
+      user: {...payload},
+      auth: true
+    }
+  },
+ [types.SET_USER_LOGED_OUT]: state => {
+    return {
+      ...state,
+      auth: false
     }
   },
   [types.DB_ADD_NEW_ENTRY_SUCCESS]: (state, {type, payload}) => {

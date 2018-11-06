@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import loginconfig from './loginconfig';
 import {connect} from "react-redux";
 import {cleanRegError, regFormAction, setRegError, setRegisterButtonState} from "../../store/actions/headerActions";
-import {addDBEntry, setDbError} from "../../store/actions/dbActions";
+import {addDBEntry, setDbError, loginWithGoogle} from "../../store/actions/dbActions";
 import validations from '../../utils/validations';
 import FormGroupContainer from '../../containers/FormGroupContainer';
 import {Col, Form, Row} from 'reactstrap';
@@ -11,6 +11,7 @@ import * as PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import {withRouter} from "react-router-dom";
 import './style.scss';
+import axios from "axios";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -31,9 +32,26 @@ class LoginContainer extends Component {
   
   formHandler = (e) => {
     e.preventDefault();
-    this.props.addNewEntry(this.props.model);
-    this.props.history.push('/');
+    
+    switch (document.activeElement.name) {
+      case "google": //(() => '/auth/google')();
+        //this.props.loginGoogle();
+        break;
+      case "custom":
+        break;
+      case "facebook":
+        break;
+    }
+    //this.props.addNewEntry(this.props.model);
+    //this.props.history.push('/');
   };
+  
+  clickGoogle = (e) => {
+    return axios.get('/auth/google')
+      .then(response => console.log(response))
+      .catch(error => console.log(error))
+  }
+  
   
   onBlur = event => {
     const res = event.target;
@@ -71,16 +89,18 @@ class LoginContainer extends Component {
           <div className="card-wrapper">
             <Card title="Welcome back!">
               <Form onSubmit={this.formHandler}>
-                <button className="loginBtn loginBtn--google">
+                <a name="google" href="/auth/google" className="linkLogin loginBtn--google">
                   Login with Google
-                </button>
+                </a>
                 {this.prepearLogForm()}
                 <Row>
                   <Col>
-                    <button className="loginBtn loginBtn--custom">Login</button>
-                    <button className="loginBtn loginBtn--facebook">
-                      Login with Facebook
+                    <button name="custom" className="loginBtn loginBtn--custom">
+                      Login
                     </button>
+                    <a name="facebook" href="#" className="linkLogin loginBtn--facebook">
+                      Login with Facebook
+                    </a>
                   </Col>
                 </Row>
               </Form>
@@ -98,13 +118,14 @@ LoginContainer.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
+  loginGoogle: () => dispatch(loginWithGoogle()),
   regForm: (data) => dispatch(regFormAction(data)),
   clean: (data) => dispatch(cleanRegError(data)),
   setError: (data) => dispatch(setRegError(data)),
   regButtonState: (data) => dispatch(setRegisterButtonState(data)),
   addNewEntry: (model) => dispatch(addDBEntry(model)),
   setDbError: key => dispatch(setDbError(key))
-})
+});
 
 const mapStateToProps = state => {
   return {

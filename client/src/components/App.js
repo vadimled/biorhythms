@@ -10,7 +10,7 @@ import Spinner from "../components/Spinner";
 
 class App extends Component {
   
-  componentDidMount() {
+  componentWillMount() {
     this.props.fetchDb();
     this.props.fetchUser();
   }

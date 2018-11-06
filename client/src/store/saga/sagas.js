@@ -1,7 +1,7 @@
 import {call, put, race} from 'redux-saga/effects';
 import * as actions from "../actions/dbActions";
 import types from '../types'
-import {fetchUserApi, fetchDatabaseApi, setNewEntryApi} from "../../api";
+import {fetchUserApi, fetchDatabaseApi, setNewEntryApi, loginWithGoogleApi} from "../../api";
 import {clearModel, setLoading} from "../actions/headerActions";
 
 export function* fetchDatabaseSaga() {
@@ -20,7 +20,10 @@ export function* fetchUserSaga() {
   try {
     yield put(setLoading(true));
     const result = yield call(fetchUserApi);
-    yield put(actions.setUserDataToStore(result));
+    yield put(actions.setUserDataToStore(result.data));
+    if(!result.data){
+      yield put(actions.setUserLogedOut());
+    }
   } catch (error) {
     yield put({type: types.FETCH_USER_FAILED, payload: error.message});
   }
@@ -42,6 +45,15 @@ export function* setNewEntrySaga(action) {
   }
 }
 
+export function* loginWithGoogleSaga() {
+  yield put(setLoading(true));
+  try {
+    yield call(loginWithGoogleApi);
+    //yield put(actions.deleteDataFromStore(action.payload))
+  } catch (error) {
+    yield put({type: types.FETCH_USER_FAILED, payload: error.message});
+  }
+}
 /*export function* deleteEntrySaga(action) {
     yield put(actions.setToolBarActive);
     try {
