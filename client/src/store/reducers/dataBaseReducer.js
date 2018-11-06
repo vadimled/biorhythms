@@ -3,6 +3,7 @@ import createReducer from '../../store/reducers/createReducer';
 
 const initialState = {
   db: {},
+  user: {},
   loading: false,
   dbError: {}
 };
@@ -12,6 +13,12 @@ const dataBaseReducer = createReducer(initialState, {
     return {
       ...state,
       db: {...payload}
+    }
+  },
+  [types.FETCH_USER_SUCCESS]: (state, {type, payload}) => {
+    return {
+      ...state,
+      user: {...payload}
     }
   },
   [types.DB_ADD_NEW_ENTRY_SUCCESS]: (state, {type, payload}) => {

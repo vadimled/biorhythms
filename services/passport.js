@@ -16,24 +16,19 @@ passport.deserializeUser((id, done) => {
 
 passport.use(
   new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback',
-    proxy: true
-  }, (accessToken, refreshToken, profile, done) => {
-    User.findOne({googleId: profile.id})
-      .then(existingUser => {
-        if (existingUser) {
-          //we already have a record with the given ID
-          done(null, existingUser); // say to Passport - Ok, the action ended, here the "existingUser"
-        }
-        else {
-          new User({googleId: profile.id, name: profile.name.givenName})// Model Instance
-            .save()
-            .then(user => done(null, user));
-        }
-      })
-    
-  })
+      clientID: keys.googleClientID,
+      clientSecret: keys.googleClientSecret,
+      callbackURL: '/auth/google/callback',
+      proxy: true
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({googleId: profile.id});
+      if (existingUser) {
+        //we already have a record with the given ID
+        return done(null, existingUser); // say to Passport - Ok, the action ended, here the "existingUser"
+      }
+      const user = await new User({googleId: profile.id, name: profile.name.givenName}).save();// Model Instance
+      done(null, user);
+    })
 );
 

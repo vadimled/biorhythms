@@ -1,7 +1,7 @@
 import {call, put, race} from 'redux-saga/effects';
 import * as actions from "../actions/dbActions";
 import types from '../types'
-import {deleteEntryApi, editEntryApi, fetchDatabaseApi, getCoordinatesApi, setNewEntryApi} from "../../api";
+import {fetchUserApi, fetchDatabaseApi, setNewEntryApi} from "../../api";
 import {clearModel, setLoading} from "../actions/headerActions";
 
 export function* fetchDatabaseSaga() {
@@ -15,6 +15,18 @@ export function* fetchDatabaseSaga() {
     yield put(setLoading(false));
   }
 }
+
+export function* fetchUserSaga() {
+  try {
+    yield put(setLoading(true));
+    const result = yield call(fetchUserApi);
+    yield put(actions.setUserDataToStore(result));
+  } catch (error) {
+    yield put({type: types.FETCH_USER_FAILED, payload: error.message});
+  }
+  yield put(setLoading(false));
+}
+
 
 export function* setNewEntrySaga(action) {
   try {

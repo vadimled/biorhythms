@@ -12,6 +12,7 @@ class App extends Component {
   
   componentDidMount() {
     this.props.fetchDb();
+    this.props.fetchUser();
   }
   
   render() {
@@ -43,7 +44,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchDb: () => dispatch(actions.fetchDB())
+    fetchDb: () => dispatch(actions.fetchDB()),
+    fetchUser: () => dispatch(actions.fetchUser())
   }
 };
 

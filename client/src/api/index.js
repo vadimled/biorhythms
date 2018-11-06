@@ -2,5 +2,6 @@ export {
     fetchDatabaseApi,
     setNewEntryApi,
     deleteEntryApi,
-    editEntryApi
+    editEntryApi,
+    fetchUserApi
 } from './Api';

@@ -1,8 +1,22 @@
 import types from '../../store/types'
 
+export function setUserDataToStore(data) {
+  return{
+    type: types.FETCH_USER_SUCCESS,
+    payload: data
+  }
+}
+
+
 export function fetchDB() {
   return{
     type: types.DB_FETCH
+  }
+}
+
+export function fetchUser() {
+  return{
+    type: types.FETCH_USER
   }
 }
 

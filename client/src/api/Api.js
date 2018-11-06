@@ -1,4 +1,9 @@
 import axios from "../store/axios-orders";
+import axs from "axios";
+
+export const fetchUserApi = () => {
+  return axs.get('/api/current_user');
+};
 
 export const fetchDatabaseApi = () => {
   return axios('/db.json', {
