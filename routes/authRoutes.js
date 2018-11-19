@@ -6,7 +6,11 @@ module.exports = (app) => {
     '/auth/google',
     passport.authenticate('google', {
       scope: ['profile', 'email']
-    }));
+    }),
+    (req, res) => {
+      console.log(res.data);
+    }
+  );
   
   app.get(
     '/auth/google/callback',

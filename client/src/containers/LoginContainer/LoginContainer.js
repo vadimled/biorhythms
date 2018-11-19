@@ -35,7 +35,7 @@ class LoginContainer extends Component {
     
     switch (document.activeElement.name) {
       case "google": //(() => '/auth/google')();
-        //this.props.loginGoogle();
+        this.props.loginGoogle();
         break;
       case "custom":
         break;
@@ -45,12 +45,6 @@ class LoginContainer extends Component {
     //this.props.addNewEntry(this.props.model);
     //this.props.history.push('/');
   };
-  
-  clickGoogle = (e) => {
-    return axios.get('/auth/google')
-      .then(response => console.log(response))
-      .catch(error => console.log(error))
-  }
   
   
   onBlur = event => {
@@ -89,9 +83,9 @@ class LoginContainer extends Component {
           <div className="card-wrapper">
             <Card title="Welcome back!">
               <Form onSubmit={this.formHandler}>
-                <a name="google" href="/auth/google" className="linkLogin loginBtn--google">
+                <button name="google" className="loginBtn loginBtn--google">
                   Login with Google
-                </a>
+                </button>
                 {this.prepearLogForm()}
                 <Row>
                   <Col>

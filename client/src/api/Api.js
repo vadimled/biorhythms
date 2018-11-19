@@ -7,13 +7,12 @@ export const fetchUserApi = () => {
 
 export const loginWithGoogleApi = () => {
   return axs('/auth/google', {
-    method: 'GET',
-    mode: 'cors',
+    method: 'POST',
+    data : {test: 1234567},
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-    },
-    withCredentials: false
+    }
   })
 };
 
