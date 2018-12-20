@@ -6,6 +6,7 @@
       "id": "nameId",
       "placeholder": "Enter username",
       "value": "",
+      "autoComplete":"username",
       "required": true
     },
     "formFeedback": "Username(2-40 characters)"
@@ -29,6 +30,7 @@
       "id": "passwordId",
       "placeholder": "Enter password",
       "value": "",
+      "autoComplete":"current-password",
       "required": true
     },
     "formFeedback": "Password (min 4 characters)"

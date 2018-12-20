@@ -6,13 +6,46 @@ export const fetchUserApi = () => {
 };
 
 export const loginWithGoogleApi = () => {
-  return axs('/auth/google', {
-    method: 'POST',
-    data : {test: 1234567},
+  return axs.get('http://localhost:5000/auth/google');
+};
+
+/*
+export const loginWithGoogleApi = () => {
+  return axios('/auth/google', {
+    method: 'GET',
+    mode: 'no-cors',
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-    }
+    },
+    withCredentials: false
+  })
+};
+*/
+
+export const registryUserApi = (data) => {
+  return axs('/auth/registry', {
+    method: 'POST',
+    mode: 'no-cors',
+    data: JSON.stringify(data),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+    withCredentials: false
+  })
+};
+
+export const loginUserApi = (data) => {
+  return axs('/auth/login', {
+    method: 'POST',
+    mode: 'no-cors',
+    data: JSON.stringify(data),
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
+    },
+    withCredentials: false
   })
 };
 

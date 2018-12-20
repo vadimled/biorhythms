@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import loginconfig from './loginconfig';
 import {connect} from "react-redux";
-import {cleanRegError, regFormAction, setRegError, setRegisterButtonState} from "../../store/actions/headerActions";
-import {addDBEntry, setDbError, loginWithGoogle} from "../../store/actions/dbActions";
+import {loginWithGoogle} from "../../store/actions/dbActions";
+import {clearModel} from "../../store/actions/registerActions";
 import validations from '../../utils/validations';
 import FormGroupContainer from '../../containers/FormGroupContainer';
 import {Col, Form, Row} from 'reactstrap';
@@ -11,29 +11,22 @@ import * as PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import {withRouter} from "react-router-dom";
 import './style.scss';
-import axios from "axios";
 
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
     this.loginConfig = JSON.parse(JSON.stringify(loginconfig));
     this.fieldsOrder = ['email', 'password'];
-    this.columnLayout = {}
+    this.columnLayout = {};
+    this.googleInput = React.createRef();
   }
-  
-  componentDidMount() {
-    this.props.regButtonState(false);
-  }
-  
-  componentWillUnmount() {
-    this.props.regButtonState(true);
-  }
-  
   
   formHandler = (e) => {
     e.preventDefault();
+    //this.props.loginGoogle();
     
-    switch (document.activeElement.name) {
+    /*console.log(this.googleInput.current.name);
+    switch (this.googleInput.current.name) {
       case "google": //(() => '/auth/google')();
         this.props.loginGoogle();
         break;
@@ -41,8 +34,8 @@ class LoginContainer extends Component {
         break;
       case "facebook":
         break;
-    }
-    //this.props.addNewEntry(this.props.model);
+    }*/
+    //this.props.sendRegistryData(this.props.model);
     //this.props.history.push('/');
   };
   
@@ -53,8 +46,9 @@ class LoginContainer extends Component {
       this.props.setError(res.name);
       return;
     }
-    this.props.clean(res.name);
-    this.props.regForm(res);
+    // this.props.clean(res.name);
+    // this.props.regForm(res);
+    // this.props.clearModel();
     return null;
   };
   
@@ -65,6 +59,7 @@ class LoginContainer extends Component {
           <FormGroupContainer
             key={id}
             onFocusHandler={this.onBlur}
+            ref={this.googleInput}
             obj={this.loginConfig[id]}
             colAtr={this.columnLayout}
             validation={this.isValid}
@@ -83,9 +78,9 @@ class LoginContainer extends Component {
           <div className="card-wrapper">
             <Card title="Welcome back!">
               <Form onSubmit={this.formHandler}>
-                <button name="google" className="loginBtn loginBtn--google">
+                <a name="google" className="loginBtn loginBtn--google" href={'http://localhost:5000/auth/google'}>
                   Login with Google
-                </button>
+                </a>
                 {this.prepearLogForm()}
                 <Row>
                   <Col>
@@ -113,12 +108,7 @@ LoginContainer.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   loginGoogle: () => dispatch(loginWithGoogle()),
-  regForm: (data) => dispatch(regFormAction(data)),
-  clean: (data) => dispatch(cleanRegError(data)),
-  setError: (data) => dispatch(setRegError(data)),
-  regButtonState: (data) => dispatch(setRegisterButtonState(data)),
-  addNewEntry: (model) => dispatch(addDBEntry(model)),
-  setDbError: key => dispatch(setDbError(key))
+  clearModel: () => dispatch(clearModel())
 });
 
 const mapStateToProps = state => {

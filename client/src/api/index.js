@@ -4,5 +4,6 @@ export {
     deleteEntryApi,
     editEntryApi,
     fetchUserApi,
+    registryUserApi,
     loginWithGoogleApi
 } from './Api';

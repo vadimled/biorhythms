@@ -3,8 +3,7 @@ import createReducer from '../../store/reducers/createReducer';
 
 const initialState = {
   db: {},
-  user: {},
-  loading: false,
+   loading: false,
   auth: null,
   dbError: {}
 };

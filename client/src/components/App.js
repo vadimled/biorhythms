@@ -9,11 +9,11 @@ import {connect} from "react-redux";
 import Spinner from "../components/Spinner";
 
 class App extends Component {
-  
-  componentWillMount() {
-    this.props.fetchDb();
-    this.props.fetchUser();
-  }
+ 
+ /* componentDidMount() {
+    //this.props.fetchDb();
+    //this.props.fetchUser();
+  }*/
   
   render() {
     return (
@@ -38,7 +38,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoading: state.header.loading
+    isLoading: state.header.loading,
+    registered: state.dataBase.registered
   }
 };
 

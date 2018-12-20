@@ -1,5 +1,5 @@
 import types from '../store/types'
-import * as headerActions from "../store/actions/headerActions";
+import * as headerActions from "../store/actions/registerActions";
 
 const regMiddleware = store => next => action => {
   next(action);

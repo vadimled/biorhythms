@@ -3,22 +3,23 @@ import PropTypes from 'prop-types';
 import {connect} from "react-redux";
 import FormGroupUI from '../../components/FormGroupUI'
 import validations from '../../utils/validations';
-import {regFormAction, setRegisterButtonState, cleanRegError, setRegError} from "../../store/actions/headerActions";
+import {cleanRegError, setRegError} from "../../store/actions/registerActions";
 
 class FormGroupContainer extends Component {
   constructor(props) {
     super(props);
-    
+  
+    const {obj: {inputAttr}} = this.props;
     this.state = {
-      inputVal: ""
+      inputVal: this.props.model[inputAttr.name] || ""
     }
   }
   
-  componentWillMount() {
+ /* componentWillMount() {
     const {obj: {inputAttr}} = this.props;
     this.setState({inputVal: this.props.model[inputAttr.name] || ""})
     
-  }
+  }*/
   
   isValid = (value, validation) => {
     return !Object.keys(validation).some(key => key === value);
@@ -42,7 +43,7 @@ class FormGroupContainer extends Component {
   };
   
   inputAttr = () => {
-    const {errors, onFocusHandler, obj: {inputAttr}} = this.props;
+    const {errors, onFocusHandler, ref, obj: {inputAttr}} = this.props;
     const valid = inputAttr ? this.isValid(inputAttr.name, errors) : false;
     const val = this.state.inputVal;
     return {
@@ -51,6 +52,7 @@ class FormGroupContainer extends Component {
       onBlur: onFocusHandler,
       value: val,
       onChange: this.onChange,
+      ref,
       readOnly: false
     }
   };
@@ -84,9 +86,10 @@ FormGroupContainer.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    model: state.header.model,
-    errors: state.header.regErrors,
+    model: state.register.model,
+    errors: state.register.regErrors,
     dbE: state.dataBase.dbError
+  
   }
 };
 

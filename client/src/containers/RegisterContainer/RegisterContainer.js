@@ -2,8 +2,8 @@ import React, {Component} from 'react'
 import './style.scss';
 import regconfig from './regconfig';
 import {connect} from "react-redux";
-import {regFormAction, setRegisterButtonState, cleanRegError, setRegError} from "../../store/actions/headerActions";
-import {addDBEntry, setDbError} from "../../store/actions/dbActions";
+import {sendRegistryData,regFormAction,cleanRegError, setRegError} from "../../store/actions/registerActions";
+import {setHeaderButtonsMode} from "../../store/actions/headerActions";
 import validations from '../../utils/validations';
 import FormGroupContainer from '../../containers/FormGroupContainer';
 import {Col, Form, Row} from 'reactstrap';
@@ -25,17 +25,17 @@ class RegisterContainer extends Component {
   }
   
   componentDidMount() {
-    this.props.regButtonState(false);
+    this.props.regButtonMode({button: "registerBtn", mode: false});
   }
   
   componentWillUnmount() {
-    this.props.regButtonState(true);
+    this.props.regButtonMode({button: "registerBtn", mode: true});
   }
   
   
   formHandler = (e) => {
     e.preventDefault();
-    this.props.addNewEntry(this.props.model);
+    this.props.sendRegistryData(this.props.model);
     this.props.history.push('/');
   };
   
@@ -74,16 +74,10 @@ class RegisterContainer extends Component {
           :
           <div className="card-wrapper"><Card>
             <Form onSubmit={this.formHandler}>
-              <button className="loginBtn loginBtn--google">
-                Register with Google
-              </button>
               {this.prepearRegForm()}
               <Row>
                 <Col>
                   <button className="loginBtn loginBtn--custom">Register</button>
-                  <button className="loginBtn loginBtn--facebook">
-                    Register with Facebook
-                  </button>
                 </Col>
               </Row>
             </Form>
@@ -104,16 +98,16 @@ const mapDispatchToProps = dispatch => ({
   regForm: (data) => dispatch(regFormAction(data)),
   clean: (data) => dispatch(cleanRegError(data)),
   setError: (data) => dispatch(setRegError(data)),
-  regButtonState: (data) => dispatch(setRegisterButtonState(data)),
-  addNewEntry: (model) => dispatch(addDBEntry(model)),
-  setDbError: key => dispatch(setDbError(key))
-})
+  regButtonMode: (data) => dispatch(setHeaderButtonsMode(data)),
+  sendRegistryData: (model) => dispatch(sendRegistryData(model))
+});
 
 const mapStateToProps = state => {
   return {
-    model: state.header.model,
-    errors: state.header.regErrors,
-    isLoading: state.header.loading
+    model: state.register.model,
+    errors: state.register.regErrors,
+    isLoading: state.register.loading
   }
-}
+};
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RegisterContainer));
