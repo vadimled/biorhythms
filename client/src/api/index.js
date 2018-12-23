@@ -5,5 +5,5 @@ export {
     editEntryApi,
     fetchUserApi,
     registryUserApi,
-    loginWithGoogleApi
+    loginUserApi
 } from './Api';

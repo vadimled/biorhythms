@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const headerReducer = createReducer(initialState, {
-  [types.SET_HEADER_BUTTON_MODE]: (state, payload) => {
+  [types.SET_HEADER_BUTTON_MODE]: (state, {type, payload}) => {
     return {
       ...state,
       [payload.button]: payload.mode

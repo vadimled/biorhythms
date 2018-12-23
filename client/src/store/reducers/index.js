@@ -7,7 +7,9 @@ import registerReducer from "../reducers/registerReducer";
 export default combineReducers({
   dataBase: dataBaseReducer,
   header: headerReducer,
-  register: registerReducer,
-  login: loginReducer
+  auth: combineReducers({
+    register: registerReducer,
+    login: loginReducer
+  })
 });
 

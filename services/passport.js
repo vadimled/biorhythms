@@ -55,6 +55,7 @@ passport.use('local-signup', new LocalStrategy({
       user.password = User.generateHash(password);
       
       const usersData = await new UsersData();// Model Instance
+      usersData._user = user.id;
       usersData.birthday = req.body.birthday;
       usersData.gender = req.body.gender;
       if (req.body.birthTime)
@@ -71,7 +72,6 @@ passport.use('local-signup', new LocalStrategy({
         if (err)
           throw err;
         else
-          console.log(user);
         return done(null, user);
       });
       

@@ -5,23 +5,9 @@ export const fetchUserApi = () => {
   return axs.get('/api/current_user');
 };
 
-export const loginWithGoogleApi = () => {
-  return axs.get('http://localhost:5000/auth/google');
-};
-
-/*
-export const loginWithGoogleApi = () => {
-  return axios('/auth/google', {
-    method: 'GET',
-    mode: 'no-cors',
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-    },
-    withCredentials: false
-  })
-};
-*/
+// export const loginWithGoogleApi = () => {
+//   return axs.get('http://localhost:5000/auth/google');
+// };
 
 export const registryUserApi = (data) => {
   return axs('/auth/registry', {
@@ -48,6 +34,10 @@ export const loginUserApi = (data) => {
     withCredentials: false
   })
 };
+
+
+
+
 
 export const fetchDatabaseApi = () => {
   return axios('/db.json', {

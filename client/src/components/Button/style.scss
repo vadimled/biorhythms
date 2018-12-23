@@ -29,7 +29,11 @@ $color-link: #cccccc;
     outline: none;
   }
   &:active {
-    box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
+    color: brown;
+    //box-shadow: inset 0 0 0 32px rgba(0, 0, 0, 0.1);
+  }
+  &:hover {
+    cursor: pointer;
   }
 }
 
@@ -64,6 +68,9 @@ $color-link: #cccccc;
     color: darken($color-link, 5%);
   }
 }
+.Button:disabled {
+  color: #545454;
+}
 
 /*
 .Button {
@@ -80,10 +87,6 @@ $color-link: #cccccc;
   margin-left: 0;
 }
 
-.Button:disabled {
-  color: #545454;
-  cursor: not-allowed;
-}
 
 .link{
   border: none;

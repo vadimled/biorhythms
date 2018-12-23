@@ -3,7 +3,7 @@ const
   {Schema} = mongoose,
   usersDataSchema = new Schema({
     // Store an id (ObjectId) of a "User" model
-    user: {type: Schema.Types.ObjectId, ref: "User"},
+    _user: {type: Schema.Types.ObjectId, ref: "User"},
     birthday: String,
     birthTime: {type: String, default: "08:00"},
     weight: {type: Number, default: 3.5},

@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import loginconfig from './loginconfig';
 import {connect} from "react-redux";
-import {loginWithGoogle} from "../../store/actions/dbActions";
-import {clearModel} from "../../store/actions/registerActions";
 import validations from '../../utils/validations';
 import FormGroupContainer from '../../containers/FormGroupContainer';
 import {Col, Form, Row} from 'reactstrap';
@@ -11,6 +9,11 @@ import * as PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import {withRouter} from "react-router-dom";
 import './style.scss';
+import {setHeaderButtonsMode} from "../../store/actions/headerActions";
+import {sendLoginData, cleanLoginError, setLoginError} from "../../store/actions/loginActions";
+import {clearRegModel} from "../../store/actions/registerActions";
+import {setEmailLogin, setPasswordLogin} from "../../store/actions/loginActions";
+// import * as headerActions from "../../store/actions/registerActions";
 
 class LoginContainer extends Component {
   constructor(props) {
@@ -19,43 +22,61 @@ class LoginContainer extends Component {
     this.fieldsOrder = ['email', 'password'];
     this.columnLayout = {};
     this.googleInput = React.createRef();
+    this.props.loginButtonMode({button: "loginBtn", mode: false});
+    this.state = {
+      password: "",
+      email: ""
+    }
+  
   }
   
-  formHandler = (e) => {
+   formHandler = (e) => {
     e.preventDefault();
-    //this.props.loginGoogle();
     
-    /*console.log(this.googleInput.current.name);
-    switch (this.googleInput.current.name) {
-      case "google": //(() => '/auth/google')();
-        this.props.loginGoogle();
-        break;
-      case "custom":
-        break;
-      case "facebook":
-        break;
-    }*/
-    //this.props.sendRegistryData(this.props.model);
+    this.props.login(this.state);
+    this.props.clearRegModel();
+    
     //this.props.history.push('/');
+  
+    /*//
+   
+   
+   switch (this.googleInput.current.name) {
+     case "google": //(() => '/auth/google')();
+       this.props.loginGoogle();
+       break;
+     case "custom":
+       break;
+     case "facebook":
+       break;
+   }*/
   };
   
   
   onBlur = event => {
     const res = event.target;
+    const {setError, clean, password, email } = this.props;
+    
     if (res.required && validations(res.name, res.value)) {
-      this.props.setError(res.name);
+      setError(res.name);
       return;
     }
-    // this.props.clean(res.name);
-    // this.props.regForm(res);
-    // this.props.clearModel();
+    clean(res.name);
+  
+    if (res.name === "password")
+      this.setState({password:res.value});
+      //this.props.password(res.value);
+    else if(res.name === "email")
+      this.setState({email:res.value});
+     // this.props.email(res.value);
+  
     return null;
   };
+
   
   prepearLogForm = () => {
     return this.fieldsOrder.map(id => {
-        const obj = this.loginConfig[id];
-        return (
+         return (
           <FormGroupContainer
             key={id}
             onFocusHandler={this.onBlur}
@@ -78,7 +99,7 @@ class LoginContainer extends Component {
           <div className="card-wrapper">
             <Card title="Welcome back!">
               <Form onSubmit={this.formHandler}>
-                <a name="google" className="loginBtn loginBtn--google" href={'http://localhost:5000/auth/google'}>
+                <a name="google" className="linkLogin loginBtn--google" href={'/auth/google'}>
                   Login with Google
                 </a>
                 {this.prepearLogForm()}
@@ -107,15 +128,21 @@ LoginContainer.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  loginGoogle: () => dispatch(loginWithGoogle()),
-  clearModel: () => dispatch(clearModel())
+  login: (data) => dispatch(sendLoginData(data)),
+  clean: (data) => dispatch(cleanLoginError(data)),
+  setError: (data) => dispatch(setLoginError(data)),
+  loginButtonMode: (data) => dispatch(setHeaderButtonsMode(data)),
+  email: (data) => setEmailLogin(data),
+  password: (data) => setPasswordLogin(data),
+  clearRegModel: () => dispatch(clearRegModel())
 });
 
 const mapStateToProps = state => {
   return {
-    model: state.header.model,
-    errors: state.header.regErrors,
-    isLoading: state.header.loading
+    model: state.auth.login.model,
+    errors: state.auth.login.loginErrors,
+    isLoading: state.auth.login.loading
   }
-}
+};
+
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginContainer));

@@ -11,17 +11,16 @@ class NavBarHeader extends React.Component {
   constructor(props) {
     super(props);
     
-    this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false
     };
   }
   
-  toggle() {
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
+  };
   
   componentDidMount() {
     const {registered, history, onRegistered} = this.props;
@@ -65,7 +64,7 @@ const mapStateToProps = state => {
   return {
     registerButtonState: state.header.registerBtn,
     auth: state.dataBase.auth,
-    registered: state.register.registered
+    registered: state.auth.register.registered
   }
 };
 

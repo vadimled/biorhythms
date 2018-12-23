@@ -56,13 +56,6 @@ export function setWeightRegister(data) {
   }
 }
 
-export function setRegisterButtonState(state) {
-  return {
-    type: types.SET_REGISTER_BUTTON_STATE,
-    payload: state
-  }
-}
-
 export function setRegError(error) {
   return {
     type: types.SET_REGISTER_ERROR,
@@ -77,9 +70,9 @@ export function cleanRegError(error) {
   }
 }
 
-export function clearModel() {
+export function clearRegModel() {
   return {
-    type: types.CLEAR_MODEL
+    type: types.CLEAR_REGISTER_MODEL
   }
 }
 

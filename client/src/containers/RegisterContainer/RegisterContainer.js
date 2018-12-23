@@ -8,7 +8,7 @@ import validations from '../../utils/validations';
 import FormGroupContainer from '../../containers/FormGroupContainer';
 import {Col, Form, Row} from 'reactstrap';
 import Card from '../../components/Card';
-import Button from '../../components/Button';
+// import Button from '../../components/Button';
 import * as PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import {withRouter} from "react-router-dom";
@@ -22,13 +22,10 @@ class RegisterContainer extends Component {
       sm: {size: 12},
       md: {size: 12}
     }
-  }
-  
-  componentDidMount() {
     this.props.regButtonMode({button: "registerBtn", mode: false});
   }
   
-  componentWillUnmount() {
+   componentWillUnmount() {
     this.props.regButtonMode({button: "registerBtn", mode: true});
   }
   
@@ -104,9 +101,9 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => {
   return {
-    model: state.register.model,
-    errors: state.register.regErrors,
-    isLoading: state.register.loading
+    model: state.auth.register.model,
+    errors: state.auth.register.regErrors,
+    isLoading: state.auth.register.loading
   }
 };
 

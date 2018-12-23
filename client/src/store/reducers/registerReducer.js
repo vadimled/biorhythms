@@ -77,10 +77,31 @@ const headerReducer = createReducer(initialState, {
       [payload.button]: payload.mode
     }
   },
-  [types.CLEAR_MODEL]: state => {
+  [types.CLEAR_REGISTER_MODEL]: state => {
     return {
       ...state,
       model: {...initialState.model }
+    }
+  },
+  [types.SET_REGISTER_ERROR]: (state, {type, payload}) => {
+    return {
+      ...state,
+      regErrors: {...state.regErrors, ...{[payload]: payload}},
+      model: {...state.model, ...{[payload]: ""}}
+    }
+  },
+  [types.CLEAN_REGISTER_ERROR]: (state, {type, payload}) => {
+    const newState = Object.assign({}, state, {
+      regErrors: Object.keys(state.regErrors).reduce((result, key) => {
+        if (key !== payload) {
+          result[key] = state.regErrors[key];
+        }
+        return result;
+      }, {})
+    });
+    return {
+      ...state,
+      ...newState
     }
   },
   [types.SET_LOADING]: (state, {type, payload}) => {

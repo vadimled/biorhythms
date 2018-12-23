@@ -1,8 +1,35 @@
 import {call, put, race} from 'redux-saga/effects';
 import * as actions from "../actions/dbActions";
 import types from '../types'
-import {fetchUserApi, fetchDatabaseApi, setNewEntryApi, loginWithGoogleApi, registryUserApi} from "../../api";
-import {clearModel, setLoading, userRegisteredSuccess} from "../actions/registerActions";
+import {fetchUserApi, fetchDatabaseApi, setNewEntryApi, loginUserApi, registryUserApi} from "../../api";
+import {clearRegModel, setLoading, userRegisteredSuccess} from "../actions/registerActions";
+
+export function* registryUserSaga(action) {
+  try {
+    yield put(setLoading(true));
+    const result = yield call(registryUserApi, action.payload);
+
+    if(result.status === 200) {
+      yield put(userRegisteredSuccess(true));
+    }
+  } catch (error) {
+    yield put({type: types.REGISTER_FAILED, payload: error.message});
+  }
+  yield put(setLoading(false));
+}
+
+export function* loginUserSaga(action) {
+  try {
+    yield put(setLoading(true));
+    const result =  yield call(loginUserApi, action.payload);
+    console.log(`Login POST result${JSON.stringify(result.data)}`);
+  } catch (error) {
+    //yield put({type: types.LOGIN_FAILED, payload: error.message});
+  }
+}
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 export function* fetchDatabaseSaga() {
   try {
@@ -37,7 +64,7 @@ export function* setNewEntrySaga(action) {
     const result = yield call(setNewEntryApi, action.payload);
     const id = result.data.name;
     yield put(actions.addNewEntryToStore({id, data: action.payload}));
-    yield put(clearModel());
+    yield put(clearRegModel());
     yield put(setLoading(false));
   } catch (error) {
     yield put({type: types.DB_ADD_NEW_ENTRY_FAILED, payload: error.message});
@@ -46,28 +73,7 @@ export function* setNewEntrySaga(action) {
 }
 
 
-export function* registryUserSaga(action) {
-  try {
-    yield put(setLoading(true));
-    const result = yield call(registryUserApi, action.payload);
-     if(result.status === 200) {
-      yield put(userRegisteredSuccess(true));
-     }
-  } catch (error) {
-    yield put({type: types.REGISTER_FAILED, payload: error.message});
-  }
-  yield put(setLoading(false));
-}
-
-export function* loginWithGoogleSaga() {
-  yield put(setLoading(true));
-  try {
-    yield call(loginWithGoogleApi);
-    //yield put(actions.deleteDataFromStore(action.payload))
-  } catch (error) {
-    yield put({type: types.FETCH_USER_FAILED, payload: error.message});
-  }
-}/*export function* deleteEntrySaga(action) {
+/*export function* deleteEntrySaga(action) {
     yield put(actions.setToolBarActive);
     try {
         yield call(deleteEntryApi, action.payload);

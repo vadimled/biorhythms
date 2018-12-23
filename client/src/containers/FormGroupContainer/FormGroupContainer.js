@@ -86,8 +86,8 @@ FormGroupContainer.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    model: state.register.model,
-    errors: state.register.regErrors,
+    model: state.auth.register.model,
+    errors: state.auth.register.regErrors,
     dbE: state.dataBase.dbError
   
   }
