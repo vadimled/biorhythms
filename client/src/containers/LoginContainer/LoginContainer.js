@@ -55,7 +55,7 @@ class LoginContainer extends Component {
   
   onBlur = event => {
     const res = event.target;
-    const {setError, clean, password, email } = this.props;
+    const {setError, clean } = this.props;
     
     if (res.required && validations(res.name, res.value)) {
       setError(res.name);
@@ -99,7 +99,7 @@ class LoginContainer extends Component {
           <div className="card-wrapper">
             <Card title="Welcome back!">
               <Form onSubmit={this.formHandler}>
-                <a name="google" className="linkLogin loginBtn--google" href={'/auth/google'}>
+                <a href="/auth/google" name="google" className="linkLogin loginBtn--google">
                   Login with Google
                 </a>
                 {this.prepearLogForm()}
@@ -108,7 +108,7 @@ class LoginContainer extends Component {
                     <button name="custom" className="loginBtn loginBtn--custom">
                       Login
                     </button>
-                    <a name="facebook" href="#" className="linkLogin loginBtn--facebook">
+                    <a name="facebook" href="/auth/facebook" className="linkLogin loginBtn--facebook">
                       Login with Facebook
                     </a>
                   </Col>

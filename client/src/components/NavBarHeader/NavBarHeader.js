@@ -34,6 +34,7 @@ class NavBarHeader extends React.Component {
     if (!this.props.auth) {
       return (<Nav className="ml-auto" navbar>
         <LinkButton className="Button Button--link" to="/" active>Home</LinkButton>
+        {/*<a className="Button Button--link" href="/auth/google">Login</a>*/}
         <LinkButton className="Button Button--link" to="/login">Login</LinkButton>
         <LinkButton className="Button Button--link" to="/register">Register</LinkButton>
       </Nav>);

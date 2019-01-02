@@ -19,8 +19,9 @@ const regMiddleware = store => next => action => {
   };
   
   Object.entries(registeringActions).find(entry => {
-    if (entry[0] === action.payload.name)
+    if (entry[0] === action.payload.name){
       return store.dispatch(entry[1](action.payload.value));
+    }
   });
   
 };

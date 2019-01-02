@@ -1,7 +1,6 @@
 const
   passport = require('passport'),
   bodyParser = require('body-parser'),
-  axios = require('axios'),
   cors = require('cors'),
   mongoose = require('mongoose'),
   UsersData = mongoose.model('usersData'),
@@ -30,34 +29,47 @@ module.exports = (app) => {
   );
   
   app.post('/auth/login',
-    passport.authenticate('local-login', {
-      successRedirect: '/auth/login',
-      failureRedirect: '/login',
-      failureFlash: false
-    }));
+  (req, res, next) => {
+    passport.authenticate('local-login', {failuerFlash: false},
+      (err, user, val2, status) => {
+        console.log(`============ ...args [${err}, ${user}, ${val2}, ${status} ]`);
+        if (err) {
+          return res.send({
+            status:404,
+            redirectTo: '/register'
+          });
+        } else if (!user) {
+          return res.send({
+            status:400,
+            redirectTo: '/register'
+          });
+        } else {
+          next();
+        }
+      })(req, res, next);
+  });
   
-  
- app.get('/auth/login',
-    userDataMiddleware,
-    (req, res) => {
-      console.log('req.data');
-      if (req.data) {
-        res.send(req.data)
-       }
-    }
-  );
-  
-  app.get(
-    '/auth/google',
-    passport.authenticate('google',
-      {scope: ['profile', 'email']},
-    )
-  );
+  app.get('/auth/google',
+    (req, res, next) => {
+      return passport.authenticate('google', {
+          scope: ['profile', 'email']
+        },
+        (err) => {
+          if (err) {
+            res.redirect('/register');
+          } else {
+            next();
+          }
+        })(req, res, next);
+    })
   
   app.get(
     '/auth/google/callback',
-    passport.authenticate('google'),
+    passport.authenticate('google', {failureRedirect: '/register'}),
     (req, res) => {
+      console.log(`/auth/google/callback': req.user = ${JSON.stringify(req.user)}`);
+      console.log(`/auth/google/callback': res.data = ${JSON.stringify(req.data)}`);
+      //if(req.user)
       res.redirect('/');
     }
   );
@@ -67,5 +79,13 @@ module.exports = (app) => {
     res.redirect('/');
   });
   
-  app.get('/api/current_user', (req, res) => res.send(req.user));
+  //app.get('/api/current_user', (req, res) => res.send(req.user));
+  app.get('/api/current_user',
+    userDataMiddleware,
+    (req, res) => {
+      console.log(`api/current_user': res.user = ${JSON.stringify(req.user)}`);
+      console.log(`api/current_user': res.data = ${JSON.stringify(req.data)}`);
+      
+      res.send(req.user)
+    });
 };

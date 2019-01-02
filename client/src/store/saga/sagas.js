@@ -1,7 +1,7 @@
-import {call, put, race} from 'redux-saga/effects';
+import {call, put} from 'redux-saga/effects';
 import * as actions from "../actions/dbActions";
 import types from '../types'
-import {fetchUserApi, fetchDatabaseApi, setNewEntryApi, loginUserApi, registryUserApi} from "../../api";
+import {fetchDatabaseApi, fetchUserApi, loginUserApi, registryUserApi, setNewEntryApi} from "../../api";
 import {clearRegModel, setLoading, userRegisteredSuccess} from "../actions/registerActions";
 
 export function* registryUserSaga(action) {
@@ -23,6 +23,9 @@ export function* loginUserSaga(action) {
     yield put(setLoading(true));
     const result =  yield call(loginUserApi, action.payload);
     console.log(`Login POST result${JSON.stringify(result.data)}`);
+    if(result.data.status === 400){
+      window.location.href="/register";
+    }
   } catch (error) {
     //yield put({type: types.LOGIN_FAILED, payload: error.message});
   }
@@ -47,6 +50,7 @@ export function* fetchUserSaga() {
   try {
     yield put(setLoading(true));
     const result = yield call(fetchUserApi);
+    console.log(`fetchUser result${JSON.stringify(result.data)}`);
     yield put(actions.setUserDataToStore(result.data));
     if(!result.data){
       yield put(actions.setUserLogedOut());
