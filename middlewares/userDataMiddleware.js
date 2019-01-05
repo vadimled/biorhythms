@@ -7,6 +7,7 @@ module.exports = async (req, res, next) => {
   if (req.user) {
     let findUsersData = await UsersData.findOne({_user: req.user.id});
     if (findUsersData) {
+      console.log("findUsersData: ", findUsersData);
       let userData = {name: req.user.name, email: req.user.email, userData: findUsersData};
        return res.send(userData);
     }
@@ -14,5 +15,6 @@ module.exports = async (req, res, next) => {
       return res.send({userData: {}});
     }
   }
+  console.log("middleware next()");
   next();
 };

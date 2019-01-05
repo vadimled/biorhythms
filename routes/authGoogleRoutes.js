@@ -3,7 +3,7 @@ const
   bodyParser = require('body-parser'),
   cors = require('cors'),
   mongoose = require('mongoose'),
-  UsersData = mongoose.model('usersData'),
+  // UsersData = mongoose.model('usersData'),
   userDataMiddleware = require('../middlewares/userDataMiddleware');
 
 module.exports = (app) => {
@@ -11,46 +11,9 @@ module.exports = (app) => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: false}));
   
-  app.post(
-    '/auth/registry',
-    passport.authenticate('local-signup', {
-      successRedirect: '/auth/registry',
-      failuerRedirect: '/',
-      failuerFlash: true
-    })
-  );
-  
-  app.get('/auth/registry',
-    (req, res) => {
-      if (req.user) {
-        res.sendStatus(200)
-      }
-    }
-  );
-  
-  app.post('/auth/login',
-  (req, res, next) => {
-    passport.authenticate('local-login', {failuerFlash: false},
-      (err, user, val2, status) => {
-        console.log(`============ ...args [${err}, ${user}, ${val2}, ${status} ]`);
-        if (err) {
-          return res.send({
-            status:404,
-            redirectTo: '/register'
-          });
-        } else if (!user) {
-          return res.send({
-            status:400,
-            redirectTo: '/register'
-          });
-        } else {
-          next();
-        }
-      })(req, res, next);
-  });
-  
   app.get('/auth/google',
     (req, res, next) => {
+      // console.log(`/auth/google': req.data = ${JSON.stringify(req.data)}`);
       return passport.authenticate('google', {
           scope: ['profile', 'email']
         },
@@ -84,8 +47,9 @@ module.exports = (app) => {
     userDataMiddleware,
     (req, res) => {
       console.log(`api/current_user': res.user = ${JSON.stringify(req.user)}`);
-      console.log(`api/current_user': res.data = ${JSON.stringify(req.data)}`);
+      console.log(`api/current_user': res.data = ${JSON.stringify(res.data)}`);
       
       res.send(req.user)
     });
 };
+

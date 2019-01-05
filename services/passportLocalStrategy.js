@@ -1,6 +1,5 @@
 const
   passport = require('passport'),
-  GoogleStrategy = require('passport-google-oauth20').Strategy,
   LocalStrategy = require('passport-local').Strategy,
   mongoose = require('mongoose'),
   User = mongoose.model('users'),//User is a "Model Class" like Table in SQL
@@ -15,46 +14,6 @@ passport.deserializeUser((id, done) => {
   User.findById(id)
     .then(user => done(null, user))
 });
-
-passport.use(
-  new GoogleStrategy({
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback',
-      proxy: true
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        console.log(`profile - ${JSON.stringify(profile.id)}`);
-        const existingUser = await User.findOne({googleId: profile.id});
-        console.log(`existingUser - ${JSON.stringify(existingUser)}`);
-        
-        if (!existingUser) {
-          return done(null, false); //error (calls the passport.authenticate callback)
-        } else {
-          return done(null, existingUser);
-        }
-      } catch (e) {
-        console.log(`done(null, null)`);
-        return done('Unauthorized');
-      }
-    })
-);
-/*
-console.log(profile && profile.email);
-const existingUser = await User.findOne({googleId: profile.id});
-if (existingUser) {
-  console.log("say to Passport - Ok, the action ended, here the \"existingUser\"")
-  //we already have a record with the given ID
-  return done(null, existingUser); // say to Passport - Ok, the action ended, here the "existingUser"
-}
-console.log("say to Passport - Do user")
-// const user = await new User({googleId: profile.id, name: profile.name.givenName}).save();// Model Instance
-done(null, null);
-})
-)
-;*/
-
 
 passport.use('local-signup', new LocalStrategy({
     // by default, local strategy uses username and password, we will override with email
@@ -116,7 +75,7 @@ passport.use('local-login', new LocalStrategy({
     passReqToCallback: true,
   },
   async (req, email, password, done) => {
-  
+    
     const user = await User.findOne({email: email});
     try {
       if (!user) {
@@ -135,47 +94,3 @@ passport.use('local-login', new LocalStrategy({
     }
   })
 );
-/*
-const
-  passport = require('passport'),
-  GoogleStrategy = require('passport-google-oauth20').Strategy,
-  mongoose = require('mongoose'),
-  User = mongoose.model('users'),//User is a "Model Class" like Table in SQL
-  keys = require('../config/keys');
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id)
-    .then(user => done(null, user))
-});
-
-passport.use(
-  new GoogleStrategy({
-    clientID: keys.googleClientID,
-    clientSecret: keys.googleClientSecret,
-    callbackURL: '/auth/google/callback',
-    proxy: true
-  }, (accessToken, refreshToken, profile, done) => {
-    console.log(`profile -  ${JSON.stringify(profile)}`);
-    User.findOne({googleId: profile.id})
-      .then(existingUser => {
-        if (existingUser) {
-          //we already have a record with the given ID
-          done(null, existingUser); // say to Passport - Ok, the action ended, here the "existingUser"
-        }
-        else {
-          new User({googleId: profile.id, name: profile.name.givenName})// Model Instance
-            .save()
-            .then(user => done(null, user));
-        }
-      })
-    
-  })
-);
-
-
-*/
-

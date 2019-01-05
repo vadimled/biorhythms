@@ -13,6 +13,7 @@ import {setHeaderButtonsMode} from "../../store/actions/headerActions";
 import {sendLoginData, cleanLoginError, setLoginError} from "../../store/actions/loginActions";
 import {clearRegModel} from "../../store/actions/registerActions";
 import {setEmailLogin, setPasswordLogin} from "../../store/actions/loginActions";
+
 // import * as headerActions from "../../store/actions/registerActions";
 
 class LoginContainer extends Component {
@@ -27,17 +28,25 @@ class LoginContainer extends Component {
       password: "",
       email: ""
     }
-  
+    
   }
   
-   formHandler = (e) => {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log(nextProps);
+    if (nextProps.auth) {
+      this.props.history.push('/');
+    }
+    return true;
+  }
+  
+  formHandler = (e) => {
     e.preventDefault();
     
     this.props.login(this.state);
     this.props.clearRegModel();
     
     //this.props.history.push('/');
-  
+    
     /*//
    
    
@@ -55,28 +64,28 @@ class LoginContainer extends Component {
   
   onBlur = event => {
     const res = event.target;
-    const {setError, clean } = this.props;
+    const {setError, clean} = this.props;
     
     if (res.required && validations(res.name, res.value)) {
       setError(res.name);
       return;
     }
     clean(res.name);
-  
+    
     if (res.name === "password")
-      this.setState({password:res.value});
-      //this.props.password(res.value);
-    else if(res.name === "email")
-      this.setState({email:res.value});
-     // this.props.email(res.value);
-  
+      this.setState({password: res.value});
+    //this.props.password(res.value);
+    else if (res.name === "email")
+      this.setState({email: res.value});
+    // this.props.email(res.value);
+    
     return null;
   };
-
+  
   
   prepearLogForm = () => {
     return this.fieldsOrder.map(id => {
-         return (
+        return (
           <FormGroupContainer
             key={id}
             onFocusHandler={this.onBlur}
@@ -141,7 +150,8 @@ const mapStateToProps = state => {
   return {
     model: state.auth.login.model,
     errors: state.auth.login.loginErrors,
-    isLoading: state.auth.login.loading
+    isLoading: state.auth.login.loading,
+    auth: state.dataBase.auth
   }
 };
 

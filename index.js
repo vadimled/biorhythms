@@ -6,7 +6,8 @@ const
   keys = require('./config/keys');
 require('./models/User');
 require('./models/UsersData');
-require('./services/passport');
+require('./services/passportGoogleStrategy');
+require('./services/passportLocalStrategy');
 
 const db = mongoose.connect(keys.mongoURI);
 // If the connection throws an error
@@ -29,6 +30,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-require('./routes/authRoutes')(app);
+require('./routes/authGoogleRoutes')(app);
+require('./routes/authLocalRoutes')(app);
 
 app.listen(PORT);

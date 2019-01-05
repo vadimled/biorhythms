@@ -2,8 +2,8 @@ import types from '../../store/types';
 import createReducer from '../../store/reducers/createReducer';
 
 const initialState = {
-  db: {},
-   loading: false,
+  user: {},
+  loading: false,
   auth: null,
   dbError: {}
 };
@@ -16,6 +16,7 @@ const dataBaseReducer = createReducer(initialState, {
     }
   },
   [types.FETCH_USER_SUCCESS]: (state, {type, payload}) => {
+    console.log(payload);
     return {
       ...state,
       user: {...payload},

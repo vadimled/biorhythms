@@ -10,6 +10,7 @@ export function* registryUserSaga(action) {
     const result = yield call(registryUserApi, action.payload);
 
     if(result.status === 200) {
+      console.log("registryUserSaga -> userRegisteredSuccess")
       yield put(userRegisteredSuccess(true));
     }
   } catch (error) {
@@ -22,12 +23,18 @@ export function* loginUserSaga(action) {
   try {
     yield put(setLoading(true));
     const result =  yield call(loginUserApi, action.payload);
-    console.log(`Login POST result${JSON.stringify(result.data)}`);
-    if(result.data.status === 400){
+    console.log(`Login - ${JSON.stringify(result.data)}`);
+     if(result.data.status === 400){
       window.location.href="/register";
     }
+    else if(result.data.status === 200){
+      console.log(`Login 200 - ${JSON.stringify(result.data)}`);
+      yield put(actions.setUserDataToStore(result.data));
+    }
+    yield put(setLoading(false));
   } catch (error) {
     //yield put({type: types.LOGIN_FAILED, payload: error.message});
+    yield put(setLoading(false));
   }
 }
 
@@ -50,8 +57,10 @@ export function* fetchUserSaga() {
   try {
     yield put(setLoading(true));
     const result = yield call(fetchUserApi);
-    console.log(`fetchUser result${JSON.stringify(result.data)}`);
-    yield put(actions.setUserDataToStore(result.data));
+    if(result.data) {
+      console.log(`fetchUser result = ${JSON.stringify(result.data)}`);
+      yield put(actions.setUserDataToStore(result.data));
+    }
     if(!result.data){
       yield put(actions.setUserLogedOut());
     }
