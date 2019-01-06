@@ -2,8 +2,6 @@ const
   passport = require('passport'),
   bodyParser = require('body-parser'),
   cors = require('cors'),
-  mongoose = require('mongoose'),
-  // UsersData = mongoose.model('usersData'),
   userDataMiddleware = require('../middlewares/userDataMiddleware');
 
 module.exports = (app) => {
@@ -13,7 +11,6 @@ module.exports = (app) => {
   
   app.get('/auth/google',
     (req, res, next) => {
-      // console.log(`/auth/google': req.data = ${JSON.stringify(req.data)}`);
       return passport.authenticate('google', {
           scope: ['profile', 'email']
         },
@@ -30,9 +27,6 @@ module.exports = (app) => {
     '/auth/google/callback',
     passport.authenticate('google', {failureRedirect: '/register'}),
     (req, res) => {
-      console.log(`/auth/google/callback': req.user = ${JSON.stringify(req.user)}`);
-      console.log(`/auth/google/callback': res.data = ${JSON.stringify(req.data)}`);
-      //if(req.user)
       res.redirect('/');
     }
   );
@@ -42,13 +36,10 @@ module.exports = (app) => {
     res.redirect('/');
   });
   
-  //app.get('/api/current_user', (req, res) => res.send(req.user));
   app.get('/api/current_user',
     userDataMiddleware,
     (req, res) => {
       console.log(`api/current_user': res.user = ${JSON.stringify(req.user)}`);
-      console.log(`api/current_user': res.data = ${JSON.stringify(res.data)}`);
-      
       res.send(req.user)
     });
 };

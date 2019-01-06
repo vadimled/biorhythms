@@ -1,13 +1,15 @@
 import axios from "../store/axios-orders";
 import axs from "axios";
 
+/*
+export const fetchUserApi = () => {
+  return axs.get('/api/profile');
+};
+*/
+
 export const fetchUserApi = () => {
   return axs.get('/api/current_user');
 };
-
-// export const loginWithGoogleApi = () => {
-//   return axs.get('http://localhost:5000/auth/google');
-// };
 
 export const registryUserApi = (data) => {
   return axs('/auth/registry', {

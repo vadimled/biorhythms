@@ -24,15 +24,14 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log(`profile - ${JSON.stringify(profile.emails[0].value)}`);
+        console.log(`profile - ${JSON.stringify(profile)}`);
         const existingUser = await User.findOne({email: profile.emails[0].value});
         console.log(`existingUser - ${JSON.stringify(existingUser)}`);
         
         if (!existingUser) {
-            return done(null, false); //error (calls the passport.authenticate callback)
-        }
-        else {
-          if(!existingUser.googleId){
+          return done(null, false); //error (calls the passport.authenticate callback)
+        } else {
+          if (!existingUser.googleId) {
             existingUser.googleId = profile.id;
             existingUser.save((err) => {
               if (err)
@@ -40,11 +39,12 @@ passport.use(
               else
                 return done(null, existingUser);
             });
+          } else {
+            return done(null, existingUser);
           }
-          return done(null, existingUser);
         }
       } catch (e) {
-        console.log(`done(null, null)`);
+        console.log(`Unauthorized - error: ${e}`);
         return done('Unauthorized');
       }
     })

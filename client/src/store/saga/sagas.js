@@ -24,10 +24,10 @@ export function* loginUserSaga(action) {
     yield put(setLoading(true));
     const result =  yield call(loginUserApi, action.payload);
     console.log(`Login - ${JSON.stringify(result.data)}`);
-     if(result.data.status === 400){
+     if(result.data.status === 404){
       window.location.href="/register";
     }
-    else if(result.data.status === 200){
+    else if(result.data){
       console.log(`Login 200 - ${JSON.stringify(result.data)}`);
       yield put(actions.setUserDataToStore(result.data));
     }
@@ -38,27 +38,12 @@ export function* loginUserSaga(action) {
   }
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-export function* fetchDatabaseSaga() {
-  try {
-    yield put(setLoading(true));
-    const db = yield call(fetchDatabaseApi);
-    yield put(actions.setDatabaseToStore(db.data));
-    yield put(setLoading(false));
-  } catch (error) {
-    yield put({type: types.DB_FETCH_FAILED, payload: error.message});
-    yield put(setLoading(false));
-  }
-}
-
 export function* fetchUserSaga() {
   try {
     yield put(setLoading(true));
     const result = yield call(fetchUserApi);
+    console.log(`fetchUser result = ${JSON.stringify(result.data)}`);
     if(result.data) {
-      console.log(`fetchUser result = ${JSON.stringify(result.data)}`);
       yield put(actions.setUserDataToStore(result.data));
     }
     if(!result.data){
@@ -70,21 +55,33 @@ export function* fetchUserSaga() {
   yield put(setLoading(false));
 }
 
+/////////////////////////////////////////////////////////////////////////////////////
 
-export function* setNewEntrySaga(action) {
-  try {
-    yield put(setLoading(true));
-    const result = yield call(setNewEntryApi, action.payload);
-    const id = result.data.name;
-    yield put(actions.addNewEntryToStore({id, data: action.payload}));
-    yield put(clearRegModel());
-    yield put(setLoading(false));
-  } catch (error) {
-    yield put({type: types.DB_ADD_NEW_ENTRY_FAILED, payload: error.message});
-    yield put(setLoading(false));
-  }
+export function* fetchDatabaseSaga() {
+  // try {
+  //   yield put(setLoading(true));
+  //   const db = yield call(fetchDatabaseApi);
+  //   yield put(actions.setDatabaseToStore(db.data));
+  //   yield put(setLoading(false));
+  // } catch (error) {
+  //   yield put({type: types.DB_FETCH_FAILED, payload: error.message});
+  //   yield put(setLoading(false));
+  // }
 }
 
+export function* setNewEntrySaga(action) {
+  // try {
+  //   yield put(setLoading(true));
+  //   const result = yield call(setNewEntryApi, action.payload);
+  //   const id = result.data.name;
+  //   yield put(actions.addNewEntryToStore({id, data: action.payload}));
+  //   yield put(clearRegModel());
+  //   yield put(setLoading(false));
+  // } catch (error) {
+  //   yield put({type: types.DB_ADD_NEW_ENTRY_FAILED, payload: error.message});
+  //   yield put(setLoading(false));
+  // }
+}
 
 /*export function* deleteEntrySaga(action) {
     yield put(actions.setToolBarActive);

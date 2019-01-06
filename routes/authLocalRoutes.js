@@ -1,18 +1,41 @@
 const
+  express = require('express'),
   passport = require('passport'),
-  bodyParser = require('body-parser'),
+  session = require('express-session'),
+  FileStore = require('session-file-store')(session),
   cors = require('cors'),
-  mongoose = require('mongoose'),
-  UsersData = mongoose.model('usersData'),
-  userDataMiddleware = require('../middlewares/userDataMiddleware');
+  userDataMiddleware = require('../middlewares/userDataMiddleware'),
+  isLogedin = (req, res, next) => {
+    console.log(`isLogedin: req = ${req.isAuthenticated()}`);
+    if (req.isAuthenticated()) {
+      next();
+    } else {
+      res.redirect('/auth/login');
+    }
+  } ;
+
 
 module.exports = (app) => {
-  app.use(cors());
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({extended: false}));
   
-  app.post(
-    '/auth/registry',
+  app.use(cors());
+  app.use(express.json());
+  app.use(express.urlencoded({extended: false}));
+  app.use(session({
+    secret: 'vadimled22051967@_RishonLeZion',
+    store: new FileStore(),
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000
+    },
+    resave: false,
+    saveUninitialized: false
+  }))
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+  
+  app.post('/auth/registry',
     passport.authenticate('local-signup', {
       successRedirect: '/auth/registry',
       failuerRedirect: '/',
@@ -35,50 +58,44 @@ module.exports = (app) => {
           successRedirect: '/auth/login',
           failuerFlash: false
         },
-        (err, user, val2, status) => {
-          // console.log(`============ ...args [${err}, ${user}, ${val2}, ${status} ]`);
-          if (err) {
+        (err, user) => {
+           if (err) {
             return res.send({
-              status: 404,
+              status: 500,
               redirectTo: '/register'
             });
           } else if (!user) {
             return res.send({
-              status: 400,
+              status: 404,
               redirectTo: '/register'
             });
           } else if (user) {
-             return res.send({
-               user,
-               status: 200,
-               redirectTo: '/auth/login'
-             });
+            req.logIn(user, err => {
+              if (err) {
+                return res.send({
+                  status: 500,
+                  redirectTo: '/register'
+                });
+              }
+              res.redirect('/auth/login');
+            })
             
           } else {
-            // console.log(`============ user ${user}`);
             next();
           }
         })(req, res, next);
     });
-  app.get('/auth/login', (req, res) => {
-    console.log(`get('/auth/login'): req.data = ${JSON.stringify(req.data)}`);
-    res.send(req.data)
-  })
   
-  /*app.get('/api/logout', (req, res) => {
-    req.logout();
-    res.redirect('/');
-  });
-  
-  //app.get('/api/current_user', (req, res) => res.send(req.user));
-  app.get('/api/current_user',
+  app.get('/auth/login',
     userDataMiddleware,
     (req, res) => {
-      console.log(`api/current_user': res.user = ${JSON.stringify(req.user)}`);
-      console.log(`api/current_user': res.data = ${JSON.stringify(res.data)}`);
-      
-      res.send(req.user)
+     res.send(req.user)
+  })
+  
+  app.get('/api/profile',
+    isLogedin,
+    (req, res) => {
+       res.send(req.user)
     });
-*/
-};
+ };
 

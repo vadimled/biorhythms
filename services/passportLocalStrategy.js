@@ -15,6 +15,9 @@ passport.deserializeUser((id, done) => {
     .then(user => done(null, user))
 });
 
+// =========================================================================
+// LOCAL REGISTERING =============================================================
+// =========================================================================
 passport.use('local-signup', new LocalStrategy({
     // by default, local strategy uses username and password, we will override with email
     usernameField: 'email',
@@ -22,8 +25,6 @@ passport.use('local-signup', new LocalStrategy({
     passReqToCallback: true // allows us to pass back the entire request to the callback
   },
   async (req, email, password, done) => {
-    //console.log(req.body, email, password);
-    
     try {
       const existingUser = await User.findOne({email});
       if (existingUser) {
@@ -60,8 +61,6 @@ passport.use('local-signup', new LocalStrategy({
     } catch (err) {
       done(err, false)
     }
-    // find a user whose email is the same as the forms email
-    // we are checking to see if the user trying to login already exists
   }));
 
 
