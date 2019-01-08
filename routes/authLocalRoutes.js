@@ -112,7 +112,9 @@ module.exports = (app) => {
   app.get('/api/profile',
     isLogedin,
     (req, res) => {
-      res.send(req.user)
-    });
+      console.log(`api/profile': req.session = ${JSON.stringify(req.session)}`);
+      req.logout();
+      res.redirect('/');
+  });
 };
 
