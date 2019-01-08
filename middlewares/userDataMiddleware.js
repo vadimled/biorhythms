@@ -3,7 +3,12 @@ const
   UsersData = mongoose.model('usersData');
 
 module.exports = async (req, res, next) => {
-  // console.log("middleware:  req = ", req.user);
+  console.log("middleware:  req = ", req.user);
+  console.log("middleware: ", {
+    loginError: req.flash('loginError'),
+    passwordError: req.flash('passwordError'),
+    emailError: req.flash('emailError')});
+  
   if (req.user) {
     let findUsersData = await UsersData.findOne({_user: req.user.id});
     if (findUsersData) {
@@ -15,6 +20,6 @@ module.exports = async (req, res, next) => {
       return res.send({userData: {}});
     }
   }
- // console.log("middleware next()");
+ console.log("middleware next()");
   next();
 };

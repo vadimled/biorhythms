@@ -79,16 +79,19 @@ passport.use('local-login', new LocalStrategy({
     try {
       if (!user) {
         console.log("this means fail the login");
+        req.flash('emailError', 'User email not found');
         return done(null, false);
       }
       if (!user.validPassword(password)) {
         console.log("this means fail password validity");
+        req.flash('passwordError', 'Password not valid');
         return done(null, false);
       }
       console.log("pass user object with no errors");
       return done(null, user)
     } catch (err) {
       console.log("this means fail the login");
+      req.flash('loginError', 'Login is failed');
       return done(err, false)
     }
   })

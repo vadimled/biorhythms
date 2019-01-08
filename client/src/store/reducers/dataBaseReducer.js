@@ -4,8 +4,7 @@ import createReducer from '../../store/reducers/createReducer';
 const initialState = {
   user: {},
   loading: false,
-  auth: null,
-  dbError: {}
+  auth: null
 };
 
 const dataBaseReducer = createReducer(initialState, {
@@ -16,14 +15,13 @@ const dataBaseReducer = createReducer(initialState, {
     }
   },
   [types.FETCH_USER_SUCCESS]: (state, {type, payload}) => {
-    console.log(payload);
     return {
       ...state,
       user: {...payload},
       auth: true
     }
   },
- [types.SET_USER_LOGED_OUT]: state => {
+  [types.SET_USER_LOGED_OUT]: state => {
     return {
       ...state,
       auth: false
@@ -37,12 +35,12 @@ const dataBaseReducer = createReducer(initialState, {
     }
   },
   [types.DB_SET_ERROR]: (state, {type, payload}) => {
-     return {
+    return {
       ...state,
-       dbError: {...state.dbError, ...{ [payload]: payload }}
+      dbError: {...state.dbError, ...{[payload]: payload}}
     }
   }
-})
+});
 
 /*if (type === types.EDIT_TOOLBAR_STATE) {
     const name = payload.name ? payload.name : null;

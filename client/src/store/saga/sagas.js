@@ -1,8 +1,9 @@
 import {call, put} from 'redux-saga/effects';
 import * as actions from "../actions/dbActions";
 import types from '../types'
-import {fetchDatabaseApi, fetchUserApi, loginUserApi, registryUserApi, setNewEntryApi} from "../../api";
-import {clearRegModel, setLoading, userRegisteredSuccess} from "../actions/registerActions";
+import {fetchUserApi, loginUserApi, registryUserApi} from "../../api";
+import {setLoading, userRegisteredSuccess} from "../actions/registerActions";
+import {setLoginServerError} from "../actions/loginActions";
 
 export function* registryUserSaga(action) {
   try {
@@ -24,8 +25,9 @@ export function* loginUserSaga(action) {
     yield put(setLoading(true));
     const result =  yield call(loginUserApi, action.payload);
     console.log(`Login - ${JSON.stringify(result.data)}`);
-     if(result.data.status === 404){
-      window.location.href="/register";
+    if(result.data.status === 400){
+       yield put(setLoginServerError(result.data.errors));
+      //window.location.href="/register";
     }
     else if(result.data){
       console.log(`Login 200 - ${JSON.stringify(result.data)}`);

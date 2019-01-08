@@ -17,6 +17,7 @@ mongoose.connection.on('error',function (err) {
 
 
 const
+  flash = require("express-flash"),
   app = express(),
   PORT = process.env.PORT || 5000;
 
@@ -27,6 +28,7 @@ app.use(
   })
 );
 
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 

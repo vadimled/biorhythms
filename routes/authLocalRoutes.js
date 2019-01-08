@@ -4,15 +4,16 @@ const
   session = require('express-session'),
   FileStore = require('session-file-store')(session),
   cors = require('cors'),
+  flash = require("express-flash"),
   userDataMiddleware = require('../middlewares/userDataMiddleware'),
   isLogedin = (req, res, next) => {
-    console.log(`isLogedin: req = ${req.isAuthenticated()}`);
+    console.log(`isLogedin = ${req.isAuthenticated()}`);
     if (req.isAuthenticated()) {
       next();
     } else {
-      res.redirect('/auth/login');
+      res.redirect('/login');
     }
-  } ;
+  };
 
 
 module.exports = (app) => {
@@ -26,12 +27,13 @@ module.exports = (app) => {
     cookie: {
       path: '/',
       httpOnly: true,
-      maxAge: 30 * 24 * 60 * 60 * 1000
+      maxAge: 60 * 60 * 1000
     },
     resave: false,
     saveUninitialized: false
   }))
-
+  app.use(flash());
+  
   app.use(passport.initialize());
   app.use(passport.session());
   
@@ -56,18 +58,27 @@ module.exports = (app) => {
       passport.authenticate('local-login',
         {
           successRedirect: '/auth/login',
-          failuerFlash: false
+          failuerFlash: true
         },
         (err, user) => {
-           if (err) {
+          const errors = {
+            loginError: req.flash('loginError'),
+            passwordError: req.flash('passwordError'),
+            emailError: req.flash('emailError')
+          };
+          
+          if (err) {
+            console.log("Login Err: ", errors);
+            
             return res.send({
               status: 500,
               redirectTo: '/register'
             });
           } else if (!user) {
+            console.log("Login !user: ", errors);
             return res.send({
-              status: 404,
-              redirectTo: '/register'
+              status: 400,
+              errors,
             });
           } else if (user) {
             req.logIn(user, err => {
@@ -81,21 +92,27 @@ module.exports = (app) => {
             })
             
           } else {
+            console.log("Login Next: ", {
+              loginError: req.flash('loginError'),
+              passwordError: req.flash('passwordError'),
+              emailError: req.flash('emailError')
+            });
             next();
           }
         })(req, res, next);
     });
   
   app.get('/auth/login',
+    isLogedin,
     userDataMiddleware,
     (req, res) => {
-     res.send(req.user)
-  })
+      res.send(req.user)
+    })
   
   app.get('/api/profile',
     isLogedin,
     (req, res) => {
-       res.send(req.user)
+      res.send(req.user)
     });
- };
+};
 

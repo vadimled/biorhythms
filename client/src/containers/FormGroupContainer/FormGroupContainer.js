@@ -69,7 +69,7 @@ class FormGroupContainer extends Component {
           colAtr={colAtr}
           inputAttr={this.inputAttr()}
           formFeedback={formFeedback}
-          dbError={this.isDbErrors(id)}
+          // dbError={this.isDbErrors(id)}
           options={options || {}}
         />
       </div>
