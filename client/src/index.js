@@ -14,11 +14,11 @@ import regMiddleware from "./store/middlewares/regMiddleware";
 import {watchSaga} from './store/saga';
 import loginMiddleware from "./store/middlewares/loginMiddleware";
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const sagaMiddleware = createSagaMiddleware();
-const store = createStore(reducers, composeEnhancers(
-  applyMiddleware(sagaMiddleware, regMiddleware, loginMiddleware)));
+const
+  composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose,
+  sagaMiddleware = createSagaMiddleware(),
+  middlewares = [sagaMiddleware, regMiddleware, loginMiddleware],
+  store = createStore(reducers, composeEnhancers(applyMiddleware(...middlewares)));
 
 sagaMiddleware.run(watchSaga);
 
