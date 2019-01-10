@@ -8,17 +8,14 @@ const loginMiddleware = store => next => action => {
     return;
   }
   
-  const loginActions = {
-    email: (data) => actions.setEmailLogin(data),
-    password: (data) => actions.setPasswordLogin(data),
-  };
+  const
+    loginActions = {
+      email: (data) => actions.setEmailLogin(data),
+      password: (data) => actions.setPasswordLogin(data),
+    },
+    res = Object.entries(loginActions).find(entry => entry[0] === action.payload.name);
   
-  Object.entries(loginActions).find(entry => {
-    if (entry[0] === action.payload.name) {
-      return store.dispatch(entry[1](action.payload.value));
-    }
-  });
-  
+  return res && store.dispatch(res[1](action.payload.value));
 };
 
 export default loginMiddleware;

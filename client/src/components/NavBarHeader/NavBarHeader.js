@@ -1,5 +1,15 @@
 import React, {Fragment} from 'react';
-import {Collapse, Nav, Navbar, NavbarBrand, NavbarToggler} from 'reactstrap';
+import {
+  Collapse,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler
+} from 'reactstrap';
 import LinkButton from "../LinkButton/LinkButton";
 import './style.scss';
 import {connect} from 'react-redux';
@@ -12,13 +22,20 @@ class NavBarHeader extends React.Component {
     super(props);
     
     this.state = {
-      isOpen: false
+      isOpen: false,
+      dropdownOpen: false
     };
   }
   
-  toggle = () => {
+  navBarToggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
+    });
+  };
+  
+  dropdownToggle = () => {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
     });
   };
   
@@ -32,12 +49,29 @@ class NavBarHeader extends React.Component {
   
   headerMode() {
     if (!this.props.auth) {
-      return (<Nav className="ml-auto" navbar>
-        <LinkButton className="Button Button--link" to="/" active>Home</LinkButton>
-        {/*<a className="Button Button--link" href="/auth/google">Login</a>*/}
-        <LinkButton className="Button Button--link" to="/login">Login</LinkButton>
-        <LinkButton className="Button Button--link" to="/register">Register</LinkButton>
-      </Nav>);
+      return <Fragment>
+        <Nav navbar>
+          <LinkButton className="Button Button--link" to="/" active>Home</LinkButton>
+          <Dropdown nav className="dropdown-products" isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+            <DropdownToggle nav caret>
+              <span>Products</span>
+            </DropdownToggle>
+            <DropdownMenu>
+              <LinkButton className="Button Button--dropdown" to="/143"
+                          onClick={this.dropdownToggle}
+                          active>143</LinkButton>
+              <DropdownItem divider/>
+              <LinkButton className="Button Button--dropdown" to="/biorhythms"
+                          onClick={this.dropdownToggle}
+                          active>Biorhythms</LinkButton>
+            </DropdownMenu>
+          </Dropdown>
+        </Nav>
+        <Nav className="ml-auto" navbar>
+          {/*<LinkButton className="Button Button--link" to="/login">Login</LinkButton>*/}
+          <LinkButton className="Button Button--success" to="/register">Get started</LinkButton>
+        </Nav>
+      </Fragment>
     } else {
       return (<Nav className="ml-auto" navbar>
         <LinkButton className="Button Button--link" to="/" active>Home</LinkButton>
@@ -50,8 +84,8 @@ class NavBarHeader extends React.Component {
     return (
       <Fragment>
         <Navbar className="header" dark expand="md">
-          <NavbarBrand href="/">Biorhythms</NavbarBrand>
-          <NavbarToggler onClick={this.toggle}/>
+          <NavbarBrand href="/"><h1>Biorhythms</h1></NavbarBrand>
+          <NavbarToggler onClick={this.navBarToggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             {this.headerMode()}
           </Collapse>
