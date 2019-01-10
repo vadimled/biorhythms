@@ -23,7 +23,8 @@ class NavBarHeader extends React.Component {
     
     this.state = {
       isOpen: false,
-      dropdownOpen: false
+      dropdownOpen: false,
+      loginButton: false
     };
   }
   
@@ -36,6 +37,12 @@ class NavBarHeader extends React.Component {
   dropdownToggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
+    });
+  };
+  
+  authToggle = () => {
+    this.setState({
+      loginButton: !this.state.loginButton
     });
   };
   
@@ -68,8 +75,11 @@ class NavBarHeader extends React.Component {
           </Dropdown>
         </Nav>
         <Nav className="ml-auto" navbar>
-          {/*<LinkButton className="Button Button--link" to="/login">Login</LinkButton>*/}
-          <LinkButton className="Button Button--success" to="/register">Get started</LinkButton>
+         { this.state.loginButton ?
+          <LinkButton className="Button Button--success" to="/login" onClick={this.authToggle}>Login</LinkButton>
+           :
+          <LinkButton className="Button Button--success" to="/register" onClick={this.authToggle}>Get started</LinkButton>
+         }
         </Nav>
       </Fragment>
     } else {
@@ -84,7 +94,7 @@ class NavBarHeader extends React.Component {
     return (
       <Fragment>
         <Navbar className="header" dark expand="md">
-          <NavbarBrand href="/"><h1>Biorhythms</h1></NavbarBrand>
+          <NavbarBrand href="/"><h2>Biorhythms</h2></NavbarBrand>
           <NavbarToggler onClick={this.navBarToggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             {this.headerMode()}
