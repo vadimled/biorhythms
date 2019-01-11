@@ -7,15 +7,22 @@ $color-link: #168da0;
   border-radius: 5px;
   margin-top: 12px;
 
-  h2 {
+  .navbar-brand {
+    font-size: 1.5em;
+    margin-top: 5px;
     color: #224a46;
-  }
+    text-shadow: 1px 1px 1px #224A5C;
 
+    &:hover{
+      color: #224a46;
+    }
+  }
 }
 
 a:hover {
   text-decoration: none;
 }
+
 .dropdown-products {
   text-align: center;
   background-color: white;

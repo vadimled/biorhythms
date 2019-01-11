@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import './style.scss';
 import chart from '../../images/chart.png';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import LoginContainer from "../../containers/LoginContainer";
 
 class Biorhythms extends Component {
@@ -24,6 +24,6 @@ class Biorhythms extends Component {
   }
 }
 
-Biorhythms.propTypes = {};
+// Biorhythms.propTypes = {};
 
 export default Biorhythms;

@@ -56,36 +56,19 @@ class NavBarHeader extends React.Component {
   
   headerMode() {
     if (!this.props.auth) {
-      return <Fragment>
-        <Nav navbar>
-          <LinkButton className="Button Button--link" to="/" active>Home</LinkButton>
-          <Dropdown nav className="dropdown-products" isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
-            <DropdownToggle nav caret>
-              <span>Products</span>
-            </DropdownToggle>
-            <DropdownMenu>
-              <LinkButton className="Button Button--dropdown" to="/143"
-                          onClick={this.dropdownToggle}
-                          active>143</LinkButton>
-              <DropdownItem divider/>
-              <LinkButton className="Button Button--dropdown" to="/biorhythms"
-                          onClick={this.dropdownToggle}
-                          active>Biorhythms</LinkButton>
-            </DropdownMenu>
-          </Dropdown>
-        </Nav>
+      return (
         <Nav className="ml-auto" navbar>
-         { this.state.loginButton ?
-          <LinkButton className="Button Button--success" to="/login" onClick={this.authToggle}>Login</LinkButton>
-           :
-          <LinkButton className="Button Button--success" to="/register" onClick={this.authToggle}>Get started</LinkButton>
-         }
+          {this.state.loginButton ?
+            <LinkButton className="Button Button--success" to="/login" onClick={this.authToggle}>Login</LinkButton>
+            :
+            <LinkButton className="Button Button--success" to="/register" onClick={this.authToggle}>Get
+              started</LinkButton>
+          }
         </Nav>
-      </Fragment>
+      )
     } else {
       return (<Nav className="ml-auto" navbar>
-        <LinkButton className="Button Button--link" to="/" active>Home</LinkButton>
-        <a className="Button Button--link" href="/api/logout">Logout</a>
+        <a className="Button Button--success" href="/api/logout">Logout</a>
       </Nav>);
     }
   };
@@ -94,9 +77,26 @@ class NavBarHeader extends React.Component {
     return (
       <Fragment>
         <Navbar className="header" dark expand="md">
-          <NavbarBrand href="/"><h2>Biorhythms</h2></NavbarBrand>
+          <NavbarBrand href="/">Biorhythms</NavbarBrand>
           <NavbarToggler onClick={this.navBarToggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav navbar>
+              <LinkButton className="Button Button--link" to="/" active>Home</LinkButton>
+              <Dropdown nav className="dropdown-products" isOpen={this.state.dropdownOpen} toggle={this.dropdownToggle}>
+                <DropdownToggle nav caret>
+                  <span>Products</span>
+                </DropdownToggle>
+                <DropdownMenu>
+                  <LinkButton className="Button Button--dropdown" to="/143"
+                              onClick={this.dropdownToggle}
+                              active>143</LinkButton>
+                  <DropdownItem divider/>
+                  <LinkButton className="Button Button--dropdown" to="/biorhythms"
+                              onClick={this.dropdownToggle}
+                              active>Biorhythms</LinkButton>
+                </DropdownMenu>
+              </Dropdown>
+            </Nav>
             {this.headerMode()}
           </Collapse>
         </Navbar>
