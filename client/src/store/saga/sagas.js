@@ -2,15 +2,17 @@ import {call, put} from 'redux-saga/effects';
 import * as actions from "../actions/dbActions";
 import types from '../types'
 import {fetchUserApi, loginUserApi, registryUserApi} from "../../api";
-import {setLoading, userRegisteredSuccess} from "../actions/registerActions";
+import {setLoading, userRegisteredSuccess, setRegServerError} from "../actions/registerActions";
 import {setLoginServerError} from "../actions/loginActions";
 
 export function* registryUserSaga(action) {
   try {
     yield put(setLoading(true));
     const result = yield call(registryUserApi, action.payload);
-
-    if(result.status === 200) {
+    console.log(`Login - ${JSON.stringify(result.data)}`);
+    if (result.data.status === 400) {
+      yield put(setRegServerError(result.data.errors));
+    } else if (result.status === 200) {
       console.log("registryUserSaga -> userRegisteredSuccess")
       yield put(userRegisteredSuccess(true));
     }
@@ -23,13 +25,12 @@ export function* registryUserSaga(action) {
 export function* loginUserSaga(action) {
   try {
     yield put(setLoading(true));
-    const result =  yield call(loginUserApi, action.payload);
+    const result = yield call(loginUserApi, action.payload);
     console.log(`Login - ${JSON.stringify(result.data)}`);
-    if(result.data.status === 400){
-       yield put(setLoginServerError(result.data.errors));
+    if (result.data.status === 400) {
+      yield put(setLoginServerError(result.data.errors));
       //window.location.href="/register";
-    }
-    else if(result.data){
+    } else if (result.data) {
       console.log(`Login 200 - ${JSON.stringify(result.data)}`);
       yield put(actions.setUserDataToStore(result.data));
     }
@@ -45,10 +46,10 @@ export function* fetchUserSaga() {
     yield put(setLoading(true));
     const result = yield call(fetchUserApi);
     console.log(`fetchUser result = ${JSON.stringify(result.data)}`);
-    if(result.data) {
+    if (result.data) {
       yield put(actions.setUserDataToStore(result.data));
     }
-    if(!result.data){
+    if (!result.data) {
       yield put(actions.setUserLogedOut());
     }
   } catch (error) {

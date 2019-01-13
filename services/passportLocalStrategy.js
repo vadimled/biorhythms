@@ -16,7 +16,7 @@ passport.deserializeUser((id, done) => {
 });
 
 // =========================================================================
-// LOCAL REGISTERING =============================================================
+// LOCAL REGISTRATION =============================================================
 // =========================================================================
 passport.use('local-signup', new LocalStrategy({
     // by default, local strategy uses username and password, we will override with email
@@ -28,11 +28,12 @@ passport.use('local-signup', new LocalStrategy({
     try {
       const existingUser = await User.findOne({email});
       if (existingUser) {
-        //we already have a record with the given ID
-        return done(null, existingUser); // say to Passport - Ok, the action ended, here the "existingUser"
+        console.log("This means that a user with this email address already exists.");
+        req.flash('emailExistsError', 'User with this email address already exists');
+        return done(null, false);
       }
       const user = await new User();// Model Instance
-      user.name = req.body.name;
+      user.name = req.body.userName;
       user.email = email;
       user.password = User.generateHash(password);
       
@@ -46,19 +47,23 @@ passport.use('local-signup', new LocalStrategy({
         usersData.weight = parseFloat(req.body.weight);
       
       usersData.save((err) => {
-        if (err)
+        if (err){
+          req.flash('registrationError', 'Registration is failed');
           throw err;
-      });
+      }});
       
       user.save((err) => {
-        if (err)
+        if (err) {
+          req.flash('registrationError', 'Registration is failed');
           throw err;
+        }
         else
           return done(null, user);
       });
       
       
     } catch (err) {
+      req.flash('registrationError', 'Registration is failed');
       done(err, false)
     }
   }));

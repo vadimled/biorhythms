@@ -59,7 +59,8 @@ const loginReducer = createReducer(initialState, {
     });
     return {
       ...state,
-      ...newState
+      ...newState,
+      loginServerErrors: initialState.loginServerErrors
     }
   },
   [types.SET_LOGIN_SERVER_ERROR]: (state, {type, payload}) => {

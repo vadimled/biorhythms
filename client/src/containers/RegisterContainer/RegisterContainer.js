@@ -1,84 +1,62 @@
 import React, {Component} from 'react'
 import './style.scss';
-import regconfig from './regconfig';
 import {connect} from "react-redux";
-import {sendRegistryData,regFormAction,cleanRegError, setRegError} from "../../store/actions/registerActions";
+import {cleanRegError, regFormAction, sendRegistryData, setRegError} from "../../store/actions/registerActions";
 import {setHeaderButtonsMode} from "../../store/actions/headerActions";
 import validations from '../../utils/validations';
-import FormGroupContainer from '../../containers/FormGroupContainer';
-import {Col, Form, Row} from 'reactstrap';
 import Card from '../../components/Card';
-// import Button from '../../components/Button';
 import * as PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import {withRouter} from "react-router-dom";
+import Register from "../../components/Register";
 
 class RegisterContainer extends Component {
   constructor(props) {
     super(props);
-    this.regConfig = JSON.parse(JSON.stringify(regconfig));
-    this.fieldsOrder = ['name', 'email', 'password', 'gender', 'birthday', 'birthTime', 'weight'];
-    this.columnLayout = {
-      sm: {size: 12},
-      md: {size: 12}
-    }
-    this.props.regButtonMode({button: "registerBtn", mode: false});
+     this.props.regButtonMode({button: "registerBtn", mode: false});
   }
   
    componentWillUnmount() {
     this.props.regButtonMode({button: "registerBtn", mode: true});
   }
   
-  
   formHandler = (e) => {
     e.preventDefault();
-    this.props.sendRegistryData(this.props.model);
-    this.props.history.push('/');
+    const {register} = this.props;
+  
+    register(this.props.model);
   };
   
-  onBlur = event => {
-    const res = event.target;
-    if (res.required && validations(res.name, res.value)) {
-      this.props.setError(res.name);
-      return;
-    }
-    this.props.clean(res.name);
-    this.props.regForm(res);
-    return null;
+  onChange = event => {
+    const
+      data = event.target,
+      {regForm, setError, clean} = this.props;
+  
+    validations(data.name, data.value) ?  console.log(`setError(data.name)=${data.name}`)|| setError(data.name) : clean(data.name);
+    regForm(data);
   };
   
-  prepearRegForm = () => {
-    return this.fieldsOrder.map(id => {
-        const obj = this.regConfig[id];
-        return (
-          <FormGroupContainer
-            key={id}
-            onFocusHandler={this.onBlur}
-            obj={obj}
-            colAtr={this.columnLayout}
-            validation={this.isValid}
-          />
-        )
-      }
-    )
+  isValid = (value, validation) => {
+    return !Object.keys(validation).some(key => key === value);
   };
   
   render() {
+    const {errors, emailError, model} = this.props;
     return (
       <div className="page-wrapper">
         {this.props.isLoading ?
           <Spinner/>
           :
-          <div className="card-wrapper"><Card>
-            <Form onSubmit={this.formHandler}>
-              {this.prepearRegForm()}
-              <Row>
-                <Col>
-                  <button className="loginBtn loginBtn--custom">Register</button>
-                </Col>
-              </Row>
-            </Form>
-          </Card>
+          <div className="card-wrapper">
+            <Card title="Please register">
+              <Register
+                formHandler={this.formHandler}
+                isValid={this.isValid}
+                onChange={this.onChange}
+                errors={errors}
+                serverError={emailError}
+                model={model}/>
+            </Card>
           </div>
         }
       </div>
@@ -96,13 +74,14 @@ const mapDispatchToProps = dispatch => ({
   clean: (data) => dispatch(cleanRegError(data)),
   setError: (data) => dispatch(setRegError(data)),
   regButtonMode: (data) => dispatch(setHeaderButtonsMode(data)),
-  sendRegistryData: (model) => dispatch(sendRegistryData(model))
+  register: (model) => dispatch(sendRegistryData(model))
 });
 
 const mapStateToProps = state => {
   return {
     model: state.auth.register.model,
     errors: state.auth.register.regErrors,
+    emailError: state.auth.register.regServerErrors.emailError,
     isLoading: state.auth.register.loading
   }
 };

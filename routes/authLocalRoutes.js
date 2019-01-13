@@ -38,20 +38,48 @@ module.exports = (app) => {
   app.use(passport.session());
   
   app.post('/auth/registry',
-    passport.authenticate('local-signup', {
-      successRedirect: '/auth/registry',
-      failuerRedirect: '/',
-      failuerFlash: true
-    })
-  );
+    (req, res, next) => {
+      passport.authenticate('local-signup', {
+          // successRedirect: '/auth/registry',
+          failuerRedirect: '/',
+          failuerFlash: true
+        },
+        (err, user) => {
+          const errors = {
+            registrationError: req.flash('registrationError'),
+            emailError: req.flash('emailExistsError')
+          };
+          
+          if (err) {
+            console.log("register Err: ", errors);
+            return res.send({
+              status: 500,
+              errors,
+            });
+          } else if (!user) {
+            console.log("register !user: ", errors);
+            return res.send({
+              status: 400,
+              errors,
+            });
+          } else if (user) {
+            console.log("register user - /auth/registry ");
+            //res.redirect('/auth/registry');
+            res.sendStatus(200)
+          } else {
+            next();
+          }
+        })(req, res, next);
+    });
   
-  app.get('/auth/registry',
+  /*app.get('/auth/registry',
     (req, res) => {
       if (req.user) {
+        console.log("/auth/registry - sendStatus(200)");
         res.sendStatus(200)
       }
     }
-  );
+  );*/
   
   app.post('/auth/login',
     (req, res, next) => {
@@ -115,6 +143,6 @@ module.exports = (app) => {
       console.log(`api/profile': req.session = ${JSON.stringify(req.session)}`);
       req.logout();
       res.redirect('/');
-  });
+    });
 };
 

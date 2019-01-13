@@ -4,7 +4,7 @@ import createReducer from '../reducers/createReducer'
 const initialState = {
   registered: false,
   model: {
-    name: "",
+    userName: "",
     email: "",
     password: "",
     gender: "",
@@ -13,6 +13,9 @@ const initialState = {
     weight: ""
   },
   regErrors: {},
+  regServerErrors: {
+    emailError: []
+  },
   loading: false
 };
 
@@ -20,7 +23,7 @@ const headerReducer = createReducer(initialState, {
   [types.SET_NAME_REGISTER]: (state, {type, payload}) => {
     return {
       ...state,
-      model: {...state.model, name: payload}
+      model: {...state.model, userName: payload}
     }
   },
   [types.SET_EMAIL_REGISTER]: (state, {type, payload}) => {
@@ -101,7 +104,14 @@ const headerReducer = createReducer(initialState, {
     });
     return {
       ...state,
-      ...newState
+      ...newState,
+      regServerErrors: { emailError: [] }
+    }
+  },
+  [types.SET_REGISTER_SERVER_ERROR]: (state, {type, payload}) => {
+    return {
+      ...state,
+      regServerErrors: {...payload }
     }
   },
   [types.SET_LOADING]: (state, {type, payload}) => {

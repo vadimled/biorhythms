@@ -70,6 +70,14 @@ export function cleanRegError(error) {
   }
 }
 
+export function setRegServerError(error) {
+  return {
+    type: types.SET_REGISTER_SERVER_ERROR,
+    payload: error
+  }
+}
+
+
 export function clearRegModel() {
   return {
     type: types.CLEAR_REGISTER_MODEL

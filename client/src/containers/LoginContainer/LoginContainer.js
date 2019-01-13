@@ -21,7 +21,7 @@ import Login from "../../components/Login";
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
-    this.fieldsOrder = ['email', 'password'];
+    // this.fieldsOrder = ['email', 'password'];
     this.columnLayout = {};
     this.props.loginButtonMode({button: "loginBtn", mode: false});
   }

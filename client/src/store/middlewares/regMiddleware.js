@@ -10,7 +10,7 @@ const regMiddleware = store => next => action => {
   
   const
     registeringActions = {
-      name: (data) => headerActions.setNameRegister(data),
+      userName: (data) => headerActions.setNameRegister(data),
       email: (data) => headerActions.setEmailRegister(data),
       password: (data) => headerActions.setPasswordRegister(data),
       gender: (data) => headerActions.setGenderRegister(data),

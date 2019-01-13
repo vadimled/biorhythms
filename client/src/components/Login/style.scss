@@ -1,3 +1,4 @@
+/*
 $color-success: #5C9210;
 $color-danger: #944317;
 $color-info: #678495;
@@ -37,7 +38,7 @@ $color-link: #cccccc;
   }
 }
 
-/* Login */
+!* Login *!
 .Button--login {
   background: #346766 linear-gradient(#346766, #285753);
   text-shadow: 0 -1px 0 #224a47;
@@ -54,7 +55,7 @@ $color-link: #cccccc;
   }
 }
 
-/* Link */
+!* Link *!
 .Button--link {
   text-shadow: 0 -1px 0 #224a47;
   &:before {
@@ -71,3 +72,4 @@ $color-link: #cccccc;
 .Button:disabled {
   color: #545454;
 }
+*/
