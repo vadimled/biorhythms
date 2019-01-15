@@ -7,11 +7,6 @@ export function setUserDataToStore(data) {
   }
 }
 
-export function loginWithGoogle() {
-  return{
-    type: types.LOGIN_WITH_GOOGLE
-  }
-}
 
 export function setUserLogedOut() {
   return{
@@ -28,34 +23,6 @@ export function fetchDB() {
 export function fetchUser() {
   return{
     type: types.FETCH_USER
-  }
-}
-
-export function setDatabaseToStore(dataArray) {
-  return {
-    type: types.DB_FETCH_SUCCESS,
-    payload: dataArray
-  }
-}
-
-export function addDBEntry(data) {
-  return {
-    type: types.DB_ADD_NEW_ENTRY,
-    payload: data
-  }
-}
-
-export function addNewEntryToStore(data) {
-  return {
-    type: types.DB_ADD_NEW_ENTRY_SUCCESS,
-    payload: data
-  }
-}
-
-export function setDbError(data) {
-  return {
-    type: types.DB_SET_ERROR,
-    payload: data
   }
 }
 
