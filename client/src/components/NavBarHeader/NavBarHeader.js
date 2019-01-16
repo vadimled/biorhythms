@@ -108,7 +108,7 @@ class NavBarHeader extends React.Component {
 const mapStateToProps = state => {
   return {
     registerButtonState: state.header.registerBtn,
-    auth: state.dataBase.auth,
+    auth: state.auth.login.loggedIn,
     registered: state.auth.register.registered
   }
 };

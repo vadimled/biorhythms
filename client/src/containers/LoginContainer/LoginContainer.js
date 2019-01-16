@@ -21,16 +21,18 @@ import Login from "../../components/Login";
 class LoginContainer extends Component {
   constructor(props) {
     super(props);
-    // this.fieldsOrder = ['email', 'password'];
     this.columnLayout = {};
     this.props.loginButtonMode({button: "loginBtn", mode: false});
+    this.state = {
+      auth: false
+    }
   }
   
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (nextProps.auth) {
-      this.props.history.push('/');
+  static getDerivedStateFromProps({auth, history}, nextState){
+    if (auth) {
+      history.push('/');
     }
-    return true;
+    return null;
   }
   
   formHandler = (e) => {
@@ -100,10 +102,10 @@ const mapStateToProps = state => {
   return {
     model: state.auth.login.model,
     errors: state.auth.login.loginErrors,
-    isLoading: state.auth.login.loading,
+    isLoading: state.user.loading,
     emailError: state.auth.login.loginServerErrors.emailError,
     passwordError: state.auth.login.loginServerErrors.passwordError,
-    auth: state.dataBase.auth
+    auth: state.auth.login.loggedIn
   }
 };
 

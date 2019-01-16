@@ -55,10 +55,15 @@ export function clearLoginModel() {
   }
 }
 
-export function userLogedinSuccess(mode) {
+export function userLoggedInSuccess() {
   return {
-    type: types.USER_LOGEDIN_SUCCESS,
-    payload: mode
+    type: types.USER_LOGEDIN_SUCCESS
+  }
+}
+
+export function setUserLoggedOut() {
+  return{
+    type: types.SET_USER_LOGED_OUT
   }
 }
 

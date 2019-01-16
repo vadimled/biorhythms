@@ -16,7 +16,7 @@ class Biorhythms extends Component {
               temporibus? </p>
           </section>
           <section>
-            <LoginContainer/>
+            {/*<LoginContainer/>*/}
           </section>
         </article>
       </Fragment>

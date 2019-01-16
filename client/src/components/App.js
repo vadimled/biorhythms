@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import * as actions from "../store/actions/dbActions";
+import * as actions from "../store/actions/userActions";
 import {Route, withRouter, Switch} from "react-router-dom";
 import LoginContainer from '../containers/LoginContainer';
 import RegisterContainer from "../containers/RegisterContainer/RegisterContainer";
@@ -12,7 +12,6 @@ import Biorhythms from "../pages/Biorhythms";
 class App extends Component {
  
   componentWillMount() {
-    //this.props.fetchDb();
     this.props.fetchUser();
   }
   
@@ -40,14 +39,12 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoading: state.header.loading,
-    registered: state.dataBase.registered
+    isLoading: state.user.loading
   }
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchDb: () => dispatch(actions.fetchDB()),
     fetchUser: () => dispatch(actions.fetchUser())
   }
 };

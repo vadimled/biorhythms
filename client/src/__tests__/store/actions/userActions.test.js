@@ -1,4 +1,4 @@
-import * as actions from '../../../store/actions/dbActions';
+import * as actions from '../../../store/actions/userActions';
 
 
 describe('testing dbActions', () => {
@@ -14,10 +14,12 @@ describe('testing dbActions', () => {
     }
     expect(actions.setUserDataToStore(payload)).toEqual(expectedAction)
   });
-  it('testing setUserLogedOut()', () => {
+  
+  it('testing fetchUser()', () => {
     const expectedAction = {
-      type: "SET_USER_LOGED_OUT",
+      type: "FETCH_USER",
     }
-    expect(actions.setUserLogedOut()).toEqual(expectedAction)
+    expect(actions.fetchUser()).toEqual(expectedAction)
   });
+  
 });

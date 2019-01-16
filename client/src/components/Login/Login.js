@@ -13,7 +13,7 @@ const Login = ({
       <a href="/auth/google" name="google" className="linkLogin loginBtn--google">
         Login with Google
       </a>
-      
+      {/*<input type="hidden" value="prayer" />*/}
       <FormGroup row>
         <Col>
           <Input type="email" name="email" id="emailId"
@@ -22,6 +22,7 @@ const Login = ({
                  valid={isValid("email", errors)}
                  onChange={onChange}
                  value={emailValue}
+                 autoComplete="new-password"
                  required/>
           
           <FormFeedback>Please enter a valid email address</FormFeedback>
@@ -36,7 +37,8 @@ const Login = ({
                  valid={isValid("password", errors)}
                  onChange={onChange}
                  value={passwordValue}
-                 autoComplete="section-blue billing current-password"
+                 autoComplete="new-password"
+                 // autoComplete="section-blue billing current-password"
                  required/>
           <FormFeedback>Password (min 4 characters)</FormFeedback>
           <FormText>{passwordServerError.length > 0 && passwordServerError[0]}</FormText>

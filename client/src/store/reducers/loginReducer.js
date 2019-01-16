@@ -2,8 +2,7 @@ import types from '../types'
 import createReducer from '../reducers/createReducer'
 
 const initialState = {
-  user: {},
-  logedIn: false,
+  loggedIn: false,
   model: {
     email: "",
     password: "",
@@ -18,10 +17,10 @@ const initialState = {
 };
 
 const loginReducer = createReducer(initialState, {
-  [types.USER_LOGEDIN_SUCCESS]: (state, {type, payload}) => {
+  [types.USER_LOGEDIN_SUCCESS]: state => {
     return {
       ...state,
-      logedIn: payload
+      loggedIn: true
     }
   },
   [types.SET_EMAIL_LOGIN]: (state, {type, payload}) => {
@@ -66,7 +65,13 @@ const loginReducer = createReducer(initialState, {
   [types.SET_LOGIN_SERVER_ERROR]: (state, {type, payload}) => {
     return {
       ...state,
-      loginServerErrors: {...payload }
+      loginServerErrors: {...payload}
+    }
+  },
+  [types.SET_USER_LOGED_OUT]: state => {
+    return {
+      ...state,
+      loggedIn: false
     }
   },
   [types.SET_LOADING]: (state, {type, payload}) => {

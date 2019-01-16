@@ -26,7 +26,7 @@ const Register = ({
                  valid={isValid("userName", errors)}
                  onChange={onChange}
                  value={userName}
-                 autoComplete="userName"
+                 autoComplete="new-password"
                  required/>
           
           <FormFeedback>Username(2-40 characters)</FormFeedback>
@@ -40,6 +40,7 @@ const Register = ({
                  valid={isValid("email", errors)}
                  onChange={onChange}
                  value={email}
+                 autoComplete="new-password"
                  required/>
           
           <FormFeedback>Please enter a valid email address</FormFeedback>
@@ -54,7 +55,7 @@ const Register = ({
                  valid={isValid("password", errors)}
                  onChange={onChange}
                  value={password}
-                 autoComplete="section-blue billing current-password"
+                 autoComplete="new-password"
                  required/>
           <FormFeedback>Password (min 4 characters)</FormFeedback>
         </Col>

@@ -82,7 +82,7 @@ const mapStateToProps = state => {
     model: state.auth.register.model,
     errors: state.auth.register.regErrors,
     emailError: state.auth.register.regServerErrors.emailError,
-    isLoading: state.auth.register.loading
+    isLoading: state.user.loading
   }
 };
 

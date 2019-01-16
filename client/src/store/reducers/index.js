@@ -1,11 +1,11 @@
 import {combineReducers} from "redux";
 import headerReducer from "../reducers/headerReducer";
 import loginReducer from "../reducers/loginReducer";
-import dataBaseReducer from "../reducers/dataBaseReducer";
+import userReducer from "./userReducer";
 import registerReducer from "../reducers/registerReducer";
 
 export default combineReducers({
-  dataBase: dataBaseReducer,
+  user: userReducer,
   header: headerReducer,
   auth: combineReducers({
     register: registerReducer,
