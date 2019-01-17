@@ -14,7 +14,6 @@ export function loginFormAction(data) {
   }
 }
 
-
 export function setEmailLogin(data) {
   return {
     type: types.SET_EMAIL_LOGIN,
