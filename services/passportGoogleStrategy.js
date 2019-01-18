@@ -33,6 +33,7 @@ passport.use(
         } else {
           if (!existingUser.googleId) {
             existingUser.googleId = profile.id;
+            existingUser.photo = profile.photos[0].value;
             existingUser.save((err) => {
               if (err)
                 throw err;

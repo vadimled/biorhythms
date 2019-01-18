@@ -6,7 +6,8 @@ const
     googleId: String,
     name: String,
     email: String,
-    password: String
+    password: String,
+    photo: String
   }, { timestamps: true });
 
 // methods ======================

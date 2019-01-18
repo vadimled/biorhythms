@@ -10,10 +10,15 @@ module.exports = async (req, res, next) => {
     emailError: req.flash('emailError')});
   
   if (req.user) {
+    const {name, email, photo} = req.user;
     let findUsersData = await UsersData.findOne({_user: req.user.id});
     if (findUsersData) {
-      //console.log("findUsersData: ", findUsersData);
-      let userData = {name: req.user.name, email: req.user.email, userData: findUsersData};
+      let userData = {
+        name,
+        email,
+        image: photo,
+        userData: findUsersData
+      };
        return res.send(userData);
     }
     else{
