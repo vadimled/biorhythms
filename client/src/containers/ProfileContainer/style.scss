@@ -1,0 +1,13 @@
+.private-picture-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: white 1px solid;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+
+  .private-picture {
+    object-fit: cover;
+  }
+}

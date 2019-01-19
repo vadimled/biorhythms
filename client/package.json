@@ -17,8 +17,14 @@
     "not ie <= 11",
     "not op_mini all"
   ],
+  "crcf": [
+    "scss",
+    "proptypes",
+    "uppercase"
+  ],
   "dependencies": {
     "axios": "^0.18.0",
+    "enzyme": "^3.8.0",
     "http-proxy-middleware": "^0.19.1",
     "node-sass": "^4.9.4",
     "prop-types": "^15.6.2",
@@ -31,6 +37,10 @@
     "reactstrap": "^6.5.0",
     "redux": "^4.0.1",
     "redux-saga": "^0.16.2",
-    "store": "^2.0.12"
+    "store": "^2.0.12",
+    "popper.js": "^1.14.6"
+  },
+  "devDependencies": {
+    "create-react-component-folder": "^0.1.26"
   }
 }

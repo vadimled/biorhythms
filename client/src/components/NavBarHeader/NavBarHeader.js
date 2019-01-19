@@ -16,6 +16,7 @@ import {connect} from 'react-redux';
 import {withRouter} from "react-router";
 import * as actions from "../../store/actions/headerActions";
 import {userRegisteredSuccess} from "../../store/actions/registerActions";
+import ProfileContainer from "../../containers/ProfileContainer";
 
 class NavBarHeader extends React.Component {
   constructor(props) {
@@ -68,8 +69,8 @@ class NavBarHeader extends React.Component {
       )
     } else {
       return (<Nav className="ml-auto" navbar>
-        <a className="Button Button--success" href="/api/logout">Logout</a>
-      </Nav>);
+        <ProfileContainer/>
+       </Nav>);
     }
   };
   
@@ -107,6 +108,7 @@ class NavBarHeader extends React.Component {
 
 const mapStateToProps = state => {
   return {
+    img: state.user.data.image,
     registerButtonState: state.header.registerBtn,
     auth: state.auth.login.loggedIn,
     registered: state.auth.register.registered
