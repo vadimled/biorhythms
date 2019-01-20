@@ -21,20 +21,31 @@ class ProfileContainer extends Component {
     });
   };
   
+  getTwoLetters = name => {
+    return [...name].slice(0,2).join('').toUpperCase();
+  };
   
   render() {
     const {img, name} = this.props;
     return (
       <div>
         <div id="private-picture" className="private-picture-wrapper" onClick={this.toggle}>
-          <img className="private-picture" src={img} alt=""/>
+          {img ?
+            <img className="private-picture" src={img} alt=""/> :
+            <div className="private-name">{this.getTwoLetters(name)}</div>
+          }
         </div>
-        
         <Popover placement="bottom-end" isOpen={this.state.popoverOpen} target="private-picture" toggle={this.toggle}>
           <PopoverHeader>Signed in as <strong>{name}</strong></PopoverHeader>
           <PopoverBody>
-            <a className="Button Button--success" href="/api/logout">Logout</a>
+            Help
           </PopoverBody>
+          <PopoverBody>
+            Settings
+          </PopoverBody>
+          <PopoverHeader>
+            <a href="/api/logout">Logout</a>
+          </PopoverHeader>
         </Popover>
       </div>
     )

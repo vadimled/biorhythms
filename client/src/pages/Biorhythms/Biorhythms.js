@@ -10,13 +10,10 @@ class Biorhythms extends Component {
       <Fragment>
         <article className="biorhythms-wrapper">
           <section className="biorhythms-showcase">
-            <img src={chart} alt="Biorhythms showcase of Chart"/>
+            <h1>Biorhythms page</h1>
             <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur debitis deleniti deserunt dicta
               earum, enim ex fugiat illo impedit labore neque nobis, nulla optio quibusdam quis quisquam, saepe sed
               temporibus? </p>
-          </section>
-          <section>
-            {/*<LoginContainer/>*/}
           </section>
         </article>
       </Fragment>

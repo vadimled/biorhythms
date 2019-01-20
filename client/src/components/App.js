@@ -8,6 +8,7 @@ import NavBarHeader from "../components/NavBarHeader/NavBarHeader";
 import {connect} from "react-redux";
 import Spinner from "../components/Spinner";
 import Biorhythms from "../pages/Biorhythms";
+import Main from "../pages/Main";
 
 class App extends Component {
  
@@ -25,6 +26,7 @@ class App extends Component {
             <NavBarHeader/>
             <div className="App">
               <Switch>
+                <Route path="/" exact component={Main}/>
                 <Route path="/biorhythms" exact component={Biorhythms}/>
                 <Route path="/login" exact component={LoginContainer}/>
                 <Route path="/register" exact component={RegisterContainer}/>
