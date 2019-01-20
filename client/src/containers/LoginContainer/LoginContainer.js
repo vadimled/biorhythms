@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import validations from '../../utils/validations';
-import Card from '../../components/Card';
+import CustomCard from '../../components/CustomCard';
+import {Card, CardBody, CardText} from "reactstrap";
 import * as PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import {withRouter} from "react-router-dom";
@@ -16,6 +18,7 @@ import {
 } from "../../store/actions/loginActions";
 import {clearRegModel} from "../../store/actions/registerActions";
 import Login from "../../components/Login";
+import LinkButton from "../../components/NavBarHeader/NavBarHeader";
 
 
 class LoginContainer extends Component {
@@ -28,7 +31,7 @@ class LoginContainer extends Component {
     }
   }
   
-  static getDerivedStateFromProps({auth, history}, nextState){
+  static getDerivedStateFromProps({auth, history}, nextState) {
     if (auth) {
       history.push('/');
     }
@@ -38,11 +41,14 @@ class LoginContainer extends Component {
   formHandler = (e) => {
     e.preventDefault();
     const {login, clearRegModel, clearLoginModel} = this.props;
-
+    
     login(this.props.model);
     clearRegModel();
     clearLoginModel();
   };
+  
+  forgotPasswordHahdler = () => {
+  }
   
   onChange = event => {
     const
@@ -65,7 +71,7 @@ class LoginContainer extends Component {
           <Spinner/>
           :
           <div className="card-wrapper">
-            <Card title="Welcome back!">
+            <CustomCard title="Login in to 143!">
               <Login
                 formHandler={this.formHandler}
                 isValid={this.isValid}
@@ -74,7 +80,13 @@ class LoginContainer extends Component {
                 emailServerError={emailError}
                 passwordServerError={passwordError}
                 emailValue={email}
-                passwordValue={password}/>
+                passwordValue={password}
+                forgotPassword={this.forgotPasswordHahdler}/>
+            </CustomCard>
+            <Card className="mt-4">
+              <CardBody>
+                <CardText className="card-text-layout"><span>New to 143?</span> {<Link to="/register">Create an account</Link>} </CardText>
+              </CardBody>
             </Card>
           </div>
         }

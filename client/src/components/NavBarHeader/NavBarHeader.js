@@ -10,7 +10,7 @@ import {
   NavbarBrand,
   NavbarToggler
 } from 'reactstrap';
-import LinkButton from "../LinkButton/LinkButton";
+import LinkButton from "../LinkButton";
 import './style.scss';
 import {connect} from 'react-redux';
 import {withRouter} from "react-router";

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {cleanRegError, regFormAction, sendRegistryData, setRegError} from "../../store/actions/registerActions";
 import {setHeaderButtonsMode} from "../../store/actions/headerActions";
 import validations from '../../utils/validations';
-import Card from '../../components/Card';
+import CustomCard from '../../components/CustomCard';
 import * as PropTypes from "prop-types";
 import Spinner from "../../components/Spinner";
 import {withRouter} from "react-router-dom";
@@ -48,7 +48,7 @@ class RegisterContainer extends Component {
           <Spinner/>
           :
           <div className="card-wrapper">
-            <Card title="Please register">
+            <CustomCard title="Please register">
               <Register
                 formHandler={this.formHandler}
                 isValid={this.isValid}
@@ -56,7 +56,7 @@ class RegisterContainer extends Component {
                 errors={errors}
                 serverError={emailError}
                 model={model}/>
-            </Card>
+            </CustomCard>
           </div>
         }
       </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import './style.scss'
 
-const Card = props => {
+const CustomCard = props => {
   return (
     <div className={"wrapper"}>
       <div className="card">
@@ -14,4 +14,4 @@ const Card = props => {
   )
 };
 
-export default Card;
+export default CustomCard;
